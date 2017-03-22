@@ -20,3 +20,8 @@ app.controller('associateExamSettingsCtrl', function($scope){
     $scope.lengthoftest = 90;
     $scope.numberofquestions = 40;
 });
+
+app.controller('associateInExamCtrl', function($scope){
+    $scope.timer = "1:30:00";
+    $scope.msg = "Testing testing testing";
+});

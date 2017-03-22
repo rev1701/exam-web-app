@@ -16,10 +16,10 @@ app.config(function($routeProvider)
         controller: "associateExamSettingsCtrl"
     })
 
-    .when('/editlistings',
+    .when('/examinprogress',
     {
-        templateUrl: 'views/editlistings.html',
-        controller: 'editlistingsCtrl'
+        templateUrl: 'views/associateview_examinprogress.html',
+        controller: 'associateInExamCtrl'
     })
 }
 
