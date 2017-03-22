@@ -1,4 +1,4 @@
-var app = angular.module("USL1701.Frontend", ['ngRoute']);
+var app = angular.module("USL1701.Frontend", ['ngRoute', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
 
 app.config(function($routeProvider)
 {
@@ -20,6 +20,12 @@ app.config(function($routeProvider)
     {
         templateUrl: 'views/associateview_examinprogress.html',
         controller: 'associateInExamCtrl'
+    })
+
+    .when('/login',
+    {
+        templateUrl: 'views/login.html',
+        controller: 'loginCtrl'
     })
 }
 

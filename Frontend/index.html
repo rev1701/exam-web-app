@@ -1,7 +1,7 @@
 <html ng-app="USL1701.Frontend">
     <head>
         <title>
-            Login
+            LMS Remastered
         </title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel='stylesheet'>
@@ -12,59 +12,49 @@
 
     <body>
 
-      <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container-fluid">
-
-          <!-- Brand and toggle get grouped for better mobile display -->
+      	<nav class="navbar navbar-inverse" role="navigation" ng-controller="collapseCtrl">
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
           </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="navbar-collapse-1">
-            
+          <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
             <ul class="nav navbar-nav">
               <li><a href="#">Home</a></li>
               <li><a href="#!/examsettings">Exam Settings</a></li>
             </ul>
-            
+
             <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#!/examsettings">Edit Profile</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#">Separated link</a></li>
+                </ul>
+              </li>
 
-              <!--I want to add the settings dropdown option right here SK-->
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#!/examsettings">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
-                    <li class="divider"></li>
-                    <li><a href="#">Separated link</a></li>
-                  </ul>
-                </li>
-
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
-                </li>
-            
-            </ul> 
-
-        </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-     </nav>
+              <li class="dropdown">
+                <a href="#!/login" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+              </li>
+            </ul>
+		      </div>
+	      </nav>
+      
 
      <!--Where the partial views take place-->
     <div ng-view class="loginex"></div>
 
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script src="app.js"></script>
     <script src="otherjs.js"></script>
     <script src="ctrl/ctrls.js"></script>

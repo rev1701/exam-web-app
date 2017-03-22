@@ -1,4 +1,4 @@
-app.controller('signinCtrl', function($scope){
+app.controller('loginCtrl', function($scope){
     $scope.msg = "This is the sign in page!";
 });
 
@@ -26,4 +26,10 @@ app.controller('associateInExamCtrl', function($scope){
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
     $scope.msg = "Testing testing testing";
+});
+
+app.controller('collapseCtrl', function ($scope) {
+  $scope.isNavCollapsed = true;
+  $scope.isCollapsed = false;
+  $scope.isCollapsedHorizontal = false;
 });
