@@ -25,11 +25,17 @@ app.controller('associateInExamCtrl', function($scope){
     $scope.timer = "1:30:00";
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
-    $scope.msg = "Testing testing testing";
 });
 
 app.controller('collapseCtrl', function ($scope) {
   $scope.isNavCollapsed = true;
   $scope.isCollapsed = false;
   $scope.isCollapsedHorizontal = false;
+});
+
+app.controller('trainerWelcomeCtrl', function ($scope) {
+  $scope.userName = "Joe Kirkbride";
+  $scope.batchName = "1701 .NET";
+  $scope.userType = "Trainer";
+  $scope.numOfAssociates = 8;
 });

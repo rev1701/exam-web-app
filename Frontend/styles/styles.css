@@ -57,3 +57,8 @@
 .questiondescription{
     font-size: 16px;
 }
+
+#weekslabel{
+    text-align: center;
+    font-size: 24px;
+}

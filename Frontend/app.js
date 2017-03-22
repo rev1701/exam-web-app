@@ -27,6 +27,12 @@ app.config(function($routeProvider)
         templateUrl: 'views/login.html',
         controller: 'loginCtrl'
     })
+    
+    .when('/trainerwelcome', 
+    {
+        templateUrl: 'views/trainerview_welcome.html',
+        controller: 'trainerWelcomeCtrl'
+    })
 }
 
 );

@@ -78,22 +78,31 @@
                             </a>
                         </p>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                </div> <!-- .row -->
+            </div> <!-- .questionslist -->
+            <div class="sampletimerbox">
+            Timer: {{timer}}
+            </div> <!-- .sampletimerbox -->
+        </div> <!-- .questionsreviewbox -->
+    </div> <!-- .col-md-2 -->
 
 <!--Giving a little more separation between the questions and the content.-->
     <div class="col-md-1">
     </div>
 
+<!-- Disply where the questions and answers will be presented -->
     <div class="col-md-6">
         <div class="questiondescription" >
             {{question}}
-        </div>
+        </div> <!-- .questiondescription -->
         <br><br>
         <div class="answeroptions">
             {{answeroptions}}
-        </div>
-    </div>
-</div>
+        </div> <!-- .answeroptions -->
+        <br><br>
+        <div class="prevornext">
+            <a href="#"><button type="button" class='btn btn-primary'>Prev</button></a>
+            <a href="#"><button type="button" class='btn btn-success'>Next</button></a>
+        </div> <!-- .prevornext -->
+    </div> <!-- .col-md-6 -->
+</div> <!-- end entire partial view -->
