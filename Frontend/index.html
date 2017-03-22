@@ -6,6 +6,7 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel='stylesheet'>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
         <link href="styles/styles.css" rel='stylesheet'>
     </head>
 
@@ -30,33 +31,38 @@
             <ul class="nav navbar-nav">
               <li><a href="#">Home</a></li>
               <li><a href="#!/examsettings">Exam Settings</a></li>
-              <li><a href="#!/examinprogress">Exam In Progress</a></li>
             </ul>
             
             <ul class="nav navbar-nav navbar-right">
 
               <!--I want to add the settings dropdown option right here SK-->
                 <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Separated link</a></li>
-              </ul>
-            </li>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#!/examsettings">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                  </ul>
+                </li>
 
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
                 </li>
-            </ul>         
+            
+            </ul> 
+
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
      </nav>
 
+     <!--Where the partial views take place-->
     <div ng-view class="loginex"></div>
 
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
     <script src="app.js"></script>
