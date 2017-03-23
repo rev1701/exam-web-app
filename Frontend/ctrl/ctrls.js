@@ -25,14 +25,7 @@ app.controller('associateInExamCtrl', function($scope, $timeout, $interval){
     $scope.lengthofexam = 90;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
-    $scope.displaytimer = 0;
-
-    $scope.sample = function(){
-        $scope.timer = $scope.lengthofexam * 60;
-        for (i=$scope.timer; i>=0;i--){
-            console.log(i);
-        }
-    };
+    $scope.displaytimer;
 
     $scope.starttimer = function() {
 	    var counter = $scope.lengthofexam * 60; 
@@ -48,11 +41,12 @@ app.controller('associateInExamCtrl', function($scope, $timeout, $interval){
             }
             var result = counter;
             counter--;
-            console.log('web worker timer: ' +result);
             $scope.displaytimer = result;
             $scope.$apply();
 	    }, 1000); //setInterval function
     } //starttimer function
+
+    $scope.starttimer();
 }); //controller
 
 app.controller('collapseCtrl', function ($scope) {

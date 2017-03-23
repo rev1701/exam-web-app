@@ -1,4 +1,4 @@
-<div ng-controller="associateInExamCtrl">
+<div ng-controller="associateInExamCtrl" onload="$scope.starttimer()">
     <div class="col-md-2">
         <div class="questionsreviewbox">
             <div id="questionslabel"><b><u>Questions</u></b></div>
@@ -82,8 +82,6 @@
             </div> <!-- .questionslist -->
             <div class="sampletimerbox">
             Timer: {{displaytimer}}
-            <br>
-            <button type="button" ng-click="starttimer()">Start timer</button>
             </div> <!-- .sampletimerbox -->
         </div> <!-- .questionsreviewbox -->
     </div> <!-- .col-md-2 -->
