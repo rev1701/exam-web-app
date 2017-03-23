@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="associateInExamCtrl">
     <div class="col-md-2">
         <div class="questionsreviewbox">
             <div id="questionslabel"><b><u>Questions</u></b></div>
@@ -81,7 +81,9 @@
                 </div> <!-- .row -->
             </div> <!-- .questionslist -->
             <div class="sampletimerbox">
-            Timer: {{timer}}
+            Timer: {{displaytimer}}
+            <br>
+            <button type="button" ng-click="starttimer()">Start timer</button>
             </div> <!-- .sampletimerbox -->
         </div> <!-- .questionsreviewbox -->
     </div> <!-- .col-md-2 -->

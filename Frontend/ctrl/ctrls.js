@@ -17,15 +17,43 @@ app.controller('associateExamSettingsCtrl', function($scope){
     $scope.startdate = "Monday, April 3, 2017";
     $scope.starttime = "10:00 am";
     $scope.endtime = "12:00 pm";
-    $scope.lengthoftest = 90;
+    $scope.lengthofexam = 90;
     $scope.numberofquestions = 40;
 });
 
-app.controller('associateInExamCtrl', function($scope){
-    $scope.timer = "1:30:00";
+app.controller('associateInExamCtrl', function($scope, $timeout, $interval){
+    $scope.lengthofexam = 90;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
-});
+    $scope.displaytimer = 0;
+
+    $scope.sample = function(){
+        $scope.timer = $scope.lengthofexam * 60;
+        for (i=$scope.timer; i>=0;i--){
+            console.log(i);
+        }
+    };
+
+    $scope.starttimer = function() {
+	    var counter = $scope.lengthofexam * 60; 
+        var timer;
+
+        if (timer){
+            clearInterval(timer);
+        }
+	
+	    timer = setInterval(function(){
+            if (counter <= 0 || isNaN(counter)){
+                clearInterval(timer);
+            }
+            var result = counter;
+            counter--;
+            console.log('web worker timer: ' +result);
+            $scope.displaytimer = result;
+            $scope.$apply();
+	    }, 1000); //setInterval function
+    } //starttimer function
+}); //controller
 
 app.controller('collapseCtrl', function ($scope) {
   $scope.isNavCollapsed = true;
