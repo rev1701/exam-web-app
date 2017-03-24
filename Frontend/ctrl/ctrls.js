@@ -21,32 +21,13 @@ app.controller('associateExamSettingsCtrl', function($scope){
     $scope.numberofquestions = 40;
 });
 
-app.controller('associateInExamCtrl', function($scope, $timeout, $interval){
-    $scope.lengthofexam = 90;
+app.controller('associateInExamCtrl', function($scope, $timeout, $interval, timerService){
+    $scope.lengthofexam = 1;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
-    $scope.displaytimer;
-
-    $scope.starttimer = function() {
-	    var counter = $scope.lengthofexam * 60; 
-        var timer;
-
-        if (timer){
-            clearInterval(timer);
-        }
-	
-	    timer = setInterval(function(){
-            if (counter <= 0 || isNaN(counter)){
-                clearInterval(timer);
-            }
-            var result = counter;
-            counter--;
-            $scope.displaytimer = result;
-            $scope.$apply();
-	    }, 1000); //setInterval function
-    } //starttimer function
-
-    $scope.starttimer();
+    if(timerService.timerOn() === false){
+        $scope.displaytimer = timerService.GetCurrentTime($scope.lengthofexam);
+    }
 }); //controller
 
 app.controller('collapseCtrl', function ($scope) {
