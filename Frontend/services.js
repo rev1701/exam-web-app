@@ -24,7 +24,7 @@ app.service('timerService', function($rootScope){
     // function to return the current timer value
     this.GetCurrentTime = function(time) {
         this.timerOn = function(){return true};
-        var result;
+        var result = 0;
 	    var counter = time * 60; 
         var timer;
         
@@ -43,7 +43,6 @@ app.service('timerService', function($rootScope){
             // $scope.displaytimer = result;
             // $scope.$apply();
 	    }, 1000); //setInterval function
-    
         return TimeToString(result);
     };
 
@@ -53,7 +52,7 @@ app.service('timerService', function($rootScope){
 function TimeToString(timeInSeconds) {
 	var result = '';
 	var s = timeInSeconds % 60; // use modulus to get seconds
-	var m = Math.floor(timeInSeconds / 60); // get minutes
+	var m = Math.floor(timeInSeconds / 60 % 60); // get minutes
 	var h = Math.floor(timeInSeconds / 60 / 60);
 	// build the timer as string in format mm:ss
     result += (h < 10)? '0' + h : h;

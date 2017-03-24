@@ -17,7 +17,7 @@ app.controller('associateExamSettingsCtrl', function($scope){
     $scope.startdate = "Monday, April 3, 2017";
     $scope.starttime = "10:00 am";
     $scope.endtime = "12:00 pm";
-    $scope.lengthofexam = 90;
+    $scope.lengthofexam = 1;
     $scope.numberofquestions = 40;
 });
 
