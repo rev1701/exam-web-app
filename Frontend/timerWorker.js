@@ -5,7 +5,7 @@ var timer;
 
 // listen for message from the main script that called this web worker
 onmessage = function(event) {
-    console.log(event);
+    // console.log(event);
     var counter = event.data * 60; 
 	
 	if (timer){
@@ -18,7 +18,7 @@ onmessage = function(event) {
 		}
 		var result = counter;
 		counter--;
-        console.log('web worker timer: ' +result);
+        // console.log('web worker timer: ' +result);
 		postMessage(result); // return result to main thread
 	}, 1000);
 }

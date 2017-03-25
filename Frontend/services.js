@@ -15,7 +15,7 @@ app.service('timerService', function($rootScope) {
         }
         // create & start new timer web worker
         timerWorker = new Worker('timerWorker.js');
-        console.log(timerWorker);
+        // console.log(timerWorker);
         // send timer value to web worker
         timerWorker.postMessage(timeInSeconds);
     };
@@ -57,7 +57,7 @@ app.service('timerService', function($rootScope) {
 function TimeToString(timeInSeconds) {
 	var result = '';
 	var s = timeInSeconds % 60; // use modulus to get seconds
-	var m = Math.floor(timeInSeconds / 60); // get minutes
+	var m = Math.floor(timeInSeconds / 60 % 60); // get minutes
     var h = Math.floor(timeInSeconds / 60 / 60); // get hours
 	
 	// build the timer as string in format hh:mm:ss

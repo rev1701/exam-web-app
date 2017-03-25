@@ -22,7 +22,7 @@ app.controller('associateExamSettingsCtrl', function($scope){
 });
 
 app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, timerService){
-    $scope.lengthofexam = 60;
+    $scope.lengthofexam = 90;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
     
