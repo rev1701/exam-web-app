@@ -81,8 +81,8 @@
                 </div> <!-- .row -->
             </div> <!-- .questionslist -->
             <div class="sampletimerbox">
-            Timer: 
-            <span ng-controller="associateInExamCtrl">{{displaytimer}}</span>
+            Timer: {{timer}}
+            <span ng-controller="associateInExamCtrl" ng-model="displaytimer">{{displaytimer}}</span>
             </div> <!-- .sampletimerbox -->
         </div> <!-- .questionsreviewbox -->
     </div> <!-- .col-md-2 -->

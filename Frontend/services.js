@@ -1,69 +1,76 @@
-app.service('timerService', function($rootScope){
-    var timerWorker = undefined;
-    this.timerOn = function(){
-        return false;
-    }
+// service for timer
+// features:
+// -- reset timer
+// -- start timer
+// -- timer toString
 
-    this.StartTimer = function(timeInSeconds){
-        if(timerWorker){
+app.service('timerService', function($rootScope) {
+    var timerWorker = undefined; // if not undefined then web worker is running
+    
+    // start timer web worker
+    this.StartTimer = function(timeInSeconds) {
+        // if worker exist, then reset
+        if (timerWorker) {
             TimerReset(timerWorker);
         }
-        // creates and starts a new timer web worker
+        // create & start new timer web worker
         timerWorker = new Worker('timerWorker.js');
-        // sends timer value to the web worker
+        console.log(timerWorker);
+        // send timer value to web worker
         timerWorker.postMessage(timeInSeconds);
     };
-
-    // terminates the web worker timer then deletes it
+    
+    // terminate timer web worker and 'delete' it
     this.ResetTimer = TimerReset(timerWorker);
-
-    this.ConvertTimerToString = function(timerInSeconds){
+    
+    // convert time in seconds to string format mm:ss
+    this.ConvertTimerToString = function(timerInSeconds) {
         return TimeToString(timerInSeconds);
-    }
-
-    // function to return the current timer value
-    this.GetCurrentTime = function(time) {
-        this.timerOn = function(){return true};
-        var result = 0;
-	    var counter = time * 60; 
-        var timer;
-        
-        if (timer){
-		    clearInterval(timer);
-	    }
-
-	    timer = setInterval(function(){
-            if (counter <= 0 || isNaN(counter)){
-                clearInterval(timer);
-            }
-            result = counter;
-            counter--;
-            // console.log(result);
-            console.log(TimeToString(result));
-            // $scope.displaytimer = result;
-            // $scope.$apply();
-	    }, 1000); //setInterval function
-        return TimeToString(result);
     };
 
+    // function to return the current timer value
+    this.GetCurrentTime = function() {
+        var result = 0; // time in seconds
+        
+        // get time from timer web worker
+        if (timerWorker) {
+            // listen to web worker
+            timerWorker.onmessage = function(workerEvent) {
+                result = workerEvent.data;
+                // if timer is done, i.e. at zero
+                if (result === 0) {
+                    TimerReset(timerWorker); // reset timer
+                }
+                $rootScope.$emit('timer', result); // emit event with result value
+            };
+        }
+
+        return result;
+    };
 });
+
+/**********************
+   HELPER FUNCTIONS
+**********************/
 
 // convert seconds to string format mm:ss
 function TimeToString(timeInSeconds) {
 	var result = '';
 	var s = timeInSeconds % 60; // use modulus to get seconds
-	var m = Math.floor(timeInSeconds / 60 % 60); // get minutes
-	var h = Math.floor(timeInSeconds / 60 / 60);
-	// build the timer as string in format mm:ss
-    result += (h < 10)? '0' + h : h;
-    result += ':';	
-	result += (m < 10)? '0' + m : m; // ternary operator
+	var m = Math.floor(timeInSeconds / 60); // get minutes
+    var h = Math.floor(timeInSeconds / 60 / 60); // get hours
+	
+	// build the timer as string in format hh:mm:ss
+    result += (h < 10)? '0'	+ h : h;
+	result += ':';
+    result += (m < 10)? '0' + m : m; // ternary operator
 	result += ':';
 	result += (s < 10)? '0' + s : s;
 
 	return result;    
 };
 
+// reset the timer
 function TimerReset(timerworker) {
     // if worker exist, then reset
     if(timerworker) {
