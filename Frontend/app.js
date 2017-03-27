@@ -33,6 +33,11 @@ app.config(function($routeProvider)
         templateUrl: 'views/trainerview_welcome.html',
         controller: 'trainerWelcomeCtrl'
     })
+
+    .when('/gradebook',
+    {
+        templateUrl: 'views/gradebook.html'
+    })
 }
 
 );
