@@ -6,9 +6,11 @@
 
 app.service('timerService', function($rootScope) {
     var timerWorker = undefined; // if not undefined then web worker is running
+    this.hasStarted = false;
     
     // start timer web worker
     this.StartTimer = function(timeInSeconds) {
+        this.hasStarted = true;
         // if worker exist, then reset
         if (timerWorker) {
             TimerReset(timerWorker);
@@ -84,7 +86,7 @@ app.service('editableService', function(){
     this.Editable = function(edit){
         if(edit === false){
             // disable all buttons
-            console.log("The buttons should be disabled now...");
+            // console.log("The buttons should be disabled now...");
             document.getElementById("examNumberButton").disabled = true;
         }
 
