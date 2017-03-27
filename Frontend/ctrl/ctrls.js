@@ -28,7 +28,6 @@ app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, tim
     $scope.isEditable = false;
 
     //timer info
-    this.hasStarted = false;
     $rootScope.timer = $scope.lengthofexam;
     // function to start the cooking timer, use the timer service
     this.StartTimer = function() {
@@ -36,7 +35,6 @@ app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, tim
         timerService.StartTimer($rootScope.timer);
         timerService.GetCurrentTime();
         // console.log(timerService.GetCurrentTime());
-        this.hasStarted = true;
     };
     // listen to timer event, emitted by timer service
     $rootScope.$on('timer', function(event, data) {
