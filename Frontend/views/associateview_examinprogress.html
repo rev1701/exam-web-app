@@ -7,73 +7,73 @@
                 <div class="row">
                     <div class="col-md-12">
                         <p>
-                            <a href="#" class="btn btn-sq-xs btn-primary">
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-primary" id="examNumberButton" ng-disabled="isEditable == false">
                                 1
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-primary">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-primary" id="examNumberButton" ng-disabled="isEditable == false">
                                 2
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-warning">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-warning" id="examNumberButton" ng-disabled="isEditable == false">
                                 3
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-primary">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-primary" id="examNumberButton" ng-disabled="isEditable == false">
                                 4
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-primary">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-primary" id="examNumberButton" ng-disabled="isEditable == false">
                                 5
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 6
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 7
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 8
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 9
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            </button></a>
+                            <a href=""><button type="button" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 10
-                            </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            </button></a>
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 11
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 12
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 13
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 14
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 15
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 16
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 17
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 18
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 19
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 20
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 21
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 22
                             </a>
-                            <a href="#" class="btn btn-sq-xs btn-default">
+                            <a href="" class="btn btn-sq-xs btn-default" id="examNumberButton" ng-disabled="isEditable == false">
                                 23
                             </a>
                         </p>
@@ -81,10 +81,14 @@
                 </div> <!-- .row -->
             </div> <!-- .questionslist -->
             <div class="sampletimerbox">
-            Timer: 
-            <span ng-controller="associateInExamCtrl">{{displaytimer}}</span>
+            Timer: {{timer}}
             </div> <!-- .sampletimerbox -->
         </div> <!-- .questionsreviewbox -->
+        <br>
+        <div class="flagoptionbox">
+            <button type="button" class='btn btn-warning'><span class="glyphicon glyphicon-flag"></span> Flag</button>
+        </div>
+
     </div> <!-- .col-md-2 -->
 
 <!--Giving a little more separation between the questions and the content.-->

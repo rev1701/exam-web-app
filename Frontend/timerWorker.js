@@ -1,19 +1,24 @@
-var starttimer = function() {
-	    var counter = 60; 
-        var timer;
+// script to count down the cooking timer to be run by a web worker
+// NOTE : web workers don't have access to DOM, window, or parent objects
 
-        if (timer){
-            clearInterval(timer);
-        }
+var timer;
+
+// listen for message from the main script that called this web worker
+onmessage = function(event) {
+    // console.log(event);
+    var counter = event.data * 60; 
 	
-	    timer = setInterval(function(){
-            if (counter <= 0 || isNaN(counter)){
-                clearInterval(timer);
-            }
-            var result = counter;
-            counter--;
-            console.log("hey");
-            // $scope.displaytimer = result;
-            // $scope.$apply();
-	    }, 1000); //setInterval function
-    } //starttimer function
+	if (timer){
+		clearInterval(timer);
+	}
+	
+	timer = setInterval(function(){
+		if (counter <= 0 || isNaN(counter)){
+			clearInterval(timer);
+		}
+		var result = counter;
+		counter--;
+        // console.log('web worker timer: ' +result);
+		postMessage(result); // return result to main thread
+	}, 1000);
+}

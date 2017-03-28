@@ -22,13 +22,36 @@ app.controller('associateExamSettingsCtrl', function($scope){
     $scope.numberofquestions = 40;
 });
 
-app.controller('associateInExamCtrl', function($scope, $timeout, $interval, timerService){
+app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, timerService){
     $scope.lengthofexam = 1;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
-    if(timerService.timerOn() === false){
-        $scope.displaytimer = timerService.GetCurrentTime($scope.lengthofexam);
+    $scope.isEditable = false;
+
+    //timer info
+    $rootScope.timer = $scope.lengthofexam;
+    // function to start the cooking timer, use the timer service
+    this.StartTimer = function() {
+        // use timer service to start timer web worker
+        timerService.StartTimer($rootScope.timer);
+        timerService.GetCurrentTime();
+        // console.log(timerService.GetCurrentTime());
+    };
+    // listen to timer event, emitted by timer service
+    $rootScope.$on('timer', function(event, data) {
+        $rootScope.timer = timerService.ConvertTimerToString(data);
+        // $scope.$apply will listen for value changes and update screen bindings
+        $scope.$apply(function() {
+            $rootScope.timer = timerService.ConvertTimerToString(data);
+            if (data === 0) {
+                console.log("Your test is now over. Add submit test functionality here.");
+            }
+        });
+    });
+    if(timerService.hasStarted === false){
+        this.StartTimer();
     }
+
 }); //controller
 
 app.controller('collapseCtrl', function ($scope) {
