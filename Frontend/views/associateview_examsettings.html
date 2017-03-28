@@ -1,36 +1,34 @@
 <div>
-    <div class="col-md-4" id="assocaitestanding">
-        
-        <div id="associatestandinglabel">
-            <b>Associate's Standing</b>
-        </div>
-        <div id="associatestatus">
-            Status: {{status}}
-        </div>
-        <div>
-            [this is where we import the graph that shows the progress of the associate]
-        </div>
-        <div id="associatestatus">
-            Associate's Batch: {{batchName}}
-        </div>
-        <div id="associatestatus">
-            Trainer: {{batchTrainer}}
-        </div>
+    
+    <div class="examsettingstitle">
+        <b><u>Exam Settings</u></b>
+    </div>
+    <br>
+    <div class="examname">
+        <b>{{examname}}</b>
+    </div>
+    <br>
+    <div class="col-md-4"></div>
+
+    <div class="col-md-8" id="examinformation">
+        <div class = "col-md-1"></div>
+            <div class= "col-md-6">
+                Start Day: <u>{{startdate}}</u>
+                <br>
+                Start Time: <u>{{starttime}}</u>
+                <br>
+                End Time: <u>{{endtime}}</u>
+                <br>
+                Length of Test: <u>{{lengthofexam}} minutes</u>
+                <br>
+                # of Questions: <u>{{numberofquestions}}</u>
+                <br><br>
+            </div>
     </div>
 
-
-    <div class-"col-md-8" id="assocaitedetails">
-        <div class="welcomeuser">
-            <b>Welcome {{userName}}!</b>
-        </div>
-        <div class="userType">
-            {{userType}}
-        </div>
-        <br>
-        <br>
-        <div id="associatestandinglabel">
-            <b><u>Weeks</u></b>
-        </div>
-
+    <div id="startButtons">
+        <a href="#!/examinprogress"><button type="button" class='btn btn-success'>Start Test</button></a>
+        <a href="#"><button type="button" class='btn btn-danger'>Go Back</button></a>
     </div>
+
 </div>
