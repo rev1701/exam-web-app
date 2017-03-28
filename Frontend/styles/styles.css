@@ -78,3 +78,24 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+#loginsignupbuttons{
+    text-align: center;
+}
+
+#emaillabel{
+    text-align: center;
+}
+
+#passwordlabel{
+    text-align: center;
+    margin-right: 25px;
+}
+
+#emailandpasswordinputs{
+    text-align: left;
+}
+
+.display-3{
+     text-align: center;
+ }
