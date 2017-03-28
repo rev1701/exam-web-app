@@ -80,19 +80,3 @@ function TimerReset(timerworker) {
         timerworker = undefined; // delete
     }    
 };
-
-
-app.service('editableService', function(){
-    this.Editable = function(edit){
-        if(edit === false){
-            // disable all buttons
-            // console.log("The buttons should be disabled now...");
-            document.getElementById("examNumberButton").disabled = true;
-        }
-
-        else{
-            // leave the buttons on
-            console.log("Edit all you wants. :D...until time runs out");
-        }
-    };
-});

@@ -21,7 +21,7 @@ app.controller('associateExamSettingsCtrl', function($scope){
     $scope.numberofquestions = 40;
 });
 
-app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, timerService, editableService){
+app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, timerService){
     $scope.lengthofexam = 1;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
@@ -50,7 +50,6 @@ app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, tim
     if(timerService.hasStarted === false){
         this.StartTimer();
     }
-    editableService.Editable($scope.isEditable);
 
 }); //controller
 
