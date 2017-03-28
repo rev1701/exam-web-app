@@ -105,3 +105,9 @@ tr:nth-child(even) {
      -webkit-text-stroke-width: 0.5px;
      -webkit-text-stroke-color: orange;
  }
+
+ #timerinnavbar{
+     color: yellow;
+     margin-right: 30px;
+     margin-top: 15px;
+ }

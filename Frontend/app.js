@@ -17,7 +17,14 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     })
     .state('examinprogress',{
         url: '/examinprogress',
-        templateUrl: 'views/associateview_examinprogress.html',
+        views:{
+            '': {
+            templateUrl: 'views/examnavbar.html'}
+            ,
+            'progress@examinprogress':{
+            templateUrl: 'views/associateview_examinprogress.html',
+            }
+        },
         controller: 'associateInExamCtrl'
     })
     .state('login',{
