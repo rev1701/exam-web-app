@@ -1,43 +1,33 @@
-var app = angular.module("USL1701.Frontend", ['ngRoute', 'ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap']);
 
-app.config(function($routeProvider)
-{
-    $routeProvider.when
-    ('/', 
-        {
-            templateUrl: 'views/associateview_intro.html',
-            controller: 'associateWelcomeCtrl'
-        }
-    )
-
-    .when('/examsettings',
-    {
+app.config(function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/home');
+    
+    $stateProvider
+    .state('/',{
+        url: '/home',
+        templateUrl: 'views/associateview_intro.html',
+         controller: 'associateWelcomeCtrl'
+    })
+    .state('examsettings',{
+        url: '/examsettings',
         templateUrl: 'views/associateview_examsettings.html',
         controller: "associateExamSettingsCtrl"
     })
-
-    .when('/examinprogress',
-    {
+    .state('examinprogress',{
+        url: '/examinprogress',
         templateUrl: 'views/associateview_examinprogress.html',
         controller: 'associateInExamCtrl'
     })
-
-    .when('/login',
-    {
+    .state('login',{
+        url: '/login',
         templateUrl: 'views/login.html',
         controller: 'loginCtrl'
     })
-    
-    .when('/trainerwelcome', 
-    {
+    .state('trainerwelcome',{
+        url: '/trainerwelcome',
         templateUrl: 'views/trainerview_welcome.html',
         controller: 'trainerWelcomeCtrl'
-    })
-
-    .when('/gradebook',
-    {
-        templateUrl: 'views/gradebook.html'
-    })
-}
-
-);
+    });    
+    
+});

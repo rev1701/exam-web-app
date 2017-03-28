@@ -82,13 +82,9 @@
             </div> <!-- .questionslist -->
             <div class="sampletimerbox">
             Timer: {{timer}}
+            <span ng-controller="associateInExamCtrl" ng-model="displaytimer">{{displaytimer}}</span>
             </div> <!-- .sampletimerbox -->
         </div> <!-- .questionsreviewbox -->
-        <br>
-        <div class="flagoptionbox">
-            <button type="button" class='btn btn-warning'><span class="glyphicon glyphicon-flag"></span> Flag</button>
-        </div>
-
     </div> <!-- .col-md-2 -->
 
 <!--Giving a little more separation between the questions and the content.-->
