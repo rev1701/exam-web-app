@@ -1,6 +1,28 @@
 app.controller('loginCtrl', function($scope, APIService){
     $scope.msg = "This is the sign in page!";
     var users = APIService.getUsers();
+    console.log(users);
+
+
+    $scope.check = function checkUser(Email,Pword) {
+        angular.forEach(users, function (value, index) {
+            if (value.Email == Email && value.Password == Pword) {
+                if(value.UserType == 1){
+
+                }
+                else if(value.UserType == 2){
+
+                }
+                else if(value.UserType == 3){
+
+                }
+                else{
+                  
+                }
+            
+            }
+        })
+    }
 });
 
 

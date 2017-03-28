@@ -85,6 +85,6 @@ function TimerReset(timerworker) {
 //factory service to get data from our Login Web API
 app.service("APIService", function ($http) {
     this.getUsers = function () {
-        return $http.get("http://localhost:64294/api/Login")
+        return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login")
     }
 });
