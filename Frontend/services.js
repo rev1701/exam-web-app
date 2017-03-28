@@ -71,3 +71,11 @@ function TimerReset(timerworker) {
         timerworker = undefined; // delete
     }    
 };
+
+
+//factory service to get data from our Login Web API
+app.service("APIService", function ($http) {
+    this.getUsers = function () {
+        return $http.get("http://localhost:64294/api/Login")
+    }
+});

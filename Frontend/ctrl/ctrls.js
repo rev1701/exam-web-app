@@ -1,5 +1,6 @@
-app.controller('loginCtrl', function($scope){
+app.controller('loginCtrl', function($scope, APIService){
     $scope.msg = "This is the sign in page!";
+    var users = APIService.getUsers();
 });
 
 
