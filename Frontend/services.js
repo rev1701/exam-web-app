@@ -88,3 +88,14 @@ app.service("APIService", function ($http) {
         return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login")
     }
 });
+
+app.service("UserData", function(){
+    var User = {
+    status : '',
+    batchName : '',
+    batchTrainer : '',
+    userName : '',
+    userType : ''
+    };
+    return User;
+});

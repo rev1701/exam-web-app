@@ -1,8 +1,6 @@
-app.controller('loginCtrl', function($scope, APIService){
+app.controller('loginCtrl', function($scope, APIService, UserData){
     $scope.msg = "This is the sign in page!";
     var users = APIService.getUsers();
-    console.log(users);
-
 
     $scope.check = function checkUser(Email,Pword) {
         angular.forEach(users, function (value, index) {
@@ -27,12 +25,8 @@ app.controller('loginCtrl', function($scope, APIService){
 
 
 // associatefirst window controller
-app.controller('associateWelcomeCtrl', function ($scope) {
-    $scope.status = "Doing Great!";
-    $scope.batchName = "1701 .NET";
-    $scope.batchTrainer = "Joe Kirkbride";
-    $scope.userName = "Stephen Kirkland";
-    $scope.userType = "Associate";
+app.controller('associateWelcomeCtrl', function($scope, UserData) {
+    
 });
 
 app.controller('associateExamSettingsCtrl', function ($scope) {
