@@ -1,15 +1,16 @@
-<html ng-app="USL1701.Frontend">
+<html >
     <head>
         <title>
             LMS Remastered
         </title>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel='stylesheet'>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
         <link href="styles/styles.css" rel='stylesheet'>
     </head>
 
-    <body>
+    <body ng-app="USL1701.Frontend">
 
       	<nav class="navbar navbar-inverse" role="navigation" ng-controller="collapseCtrl">
           <div class="navbar-header">
@@ -22,24 +23,23 @@
           </div>
           <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed">
             <ul class="nav navbar-nav">
-              <li><a href="#">Home</a></li>
-              <li><a href="#!/examsettings">Exam Settings</a></li>
-              <li><a href="#!/trainerwelcome">Trainer Welcome</a></li>
-              <li><a href="#!/gradebook">Gradebook</a></li>
+              <li><a ui-sref="/">Home</a></li>
+              <li><a ui-sref="examsettings">Exam Settings</a></li>
+              <li><a ui-sref="trainerwelcome">Trainer Welcome</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
-                <a href="" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
+                <a ui-sref="#" class="dropdown-toggle" data-toggle="dropdown">Settings <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#!/examsettings">Edit Profile</a></li>
+                  <li><a ui-sref="/examsettings">Edit Profile</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">Separated link</a></li>
+                  <li><a ui-sref="#">Separated link</a></li>
                 </ul>
               </li>
 
               <li class="dropdown">
-                <a href="#!/login" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
+                <a ui-sref="login" class="dropdown-toggle" data-toggle="dropdown"><b>Login</b> <span class="caret"></span></a>
               </li>
             </ul>
 		      </div>
@@ -47,11 +47,12 @@
       
 
      <!--Where the partial views take place-->
-    <div ng-view class="loginex"></div>
+    <div ui-view ></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
@@ -61,5 +62,6 @@
     <script src="timerWorker.js"></script>
     <script src="services.js"></script>
     <script src="ctrl/ctrls.js"></script>
+    
   </body>
 </html>
