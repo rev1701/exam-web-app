@@ -1,7 +1,7 @@
 var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/login');
     
     $stateProvider
     .state('/',{
