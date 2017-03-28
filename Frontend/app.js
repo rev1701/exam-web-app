@@ -1,7 +1,9 @@
-var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngSanitize']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
+
+app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     $urlRouterProvider.otherwise('/login');
+    $qProvider.errorOnUnhandledRejections(false);
     
     $stateProvider
     .state('/',{
@@ -16,7 +18,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('examinprogress',{
         url: '/examinprogress',
-        templateUrl: 'views/associateview_examinprogress.html',
+        views:{
+            '': {
+            templateUrl: 'views/examnavbar.html'}
+            ,
+            'progress@examinprogress':{
+            templateUrl: 'views/associateview_examinprogress.html',
+            }
+        },
         controller: 'associateInExamCtrl'
     })
     .state('login',{
