@@ -17,12 +17,12 @@ app.controller('associateExamSettingsCtrl', function($scope){
     $scope.startdate = "Monday, April 3, 2017";
     $scope.starttime = "10:00 am";
     $scope.endtime = "12:00 pm";
-    $scope.lengthofexam = 1;
-    $scope.numberofquestions = 40;
+    $scope.lengthofexam = 90;
+    $scope.numberofquestions = 23;
 });
 
 app.controller('associateInExamCtrl', function($scope, $rootScope, $timeout, timerService){
-    $scope.lengthofexam = 1;
+    $scope.lengthofexam = 90;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
     $scope.isEditable = false;
