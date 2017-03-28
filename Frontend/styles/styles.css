@@ -99,3 +99,9 @@ tr:nth-child(even) {
 .display-3{
      text-align: center;
  }
+
+ #welcometext{
+     color: lightskyblue;
+     -webkit-text-stroke-width: 0.5px;
+     -webkit-text-stroke-color: orange;
+ }
