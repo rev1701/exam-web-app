@@ -1,0 +1,64 @@
+.welcomeuser{
+    text-align: center;
+    font-size: 30px;
+}
+
+.userType{
+    text-align: center;
+    font-size: 18px;
+}
+
+.examsettingstitle{
+    text-align: center;
+    font-size: 30px;
+}
+
+.examname{
+    text-align: center;
+    font-size: 20px;
+}
+
+#examinformation{
+    /*text-align: center;*/
+    font-size: 20px;    
+}
+
+#startButtons{
+    text-align: center;
+}
+
+#assocaitestanding{
+    border-style: solid;
+}
+
+#associatestandinglabel{
+    text-align: center;
+    font-size: 30px;
+}
+
+#associatestatus{
+    font-size: 22px;
+}
+
+#assocaitedetails{
+    /*border-style: solid;*/
+}
+
+#questionslabel{
+    font-size: 16px;
+}
+
+.btn-sq-xs {
+  width: 25px !important;
+  height: 25px !important;
+  padding:2px;
+}
+
+.questiondescription{
+    font-size: 16px;
+}
+
+#weekslabel{
+    text-align: center;
+    font-size: 24px;
+}
