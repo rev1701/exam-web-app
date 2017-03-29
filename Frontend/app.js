@@ -1,20 +1,25 @@
 var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngSanitize']);
 
+<<<<<<< HEAD
 
 app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     $urlRouterProvider.otherwise('/login');
+=======
+var app2 = app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
+    $urlRouterProvider.otherwise('/home');
+>>>>>>> bc338332770c10837e5579e31486dc01bb1c5a47
     $qProvider.errorOnUnhandledRejections(false);
     
     $stateProvider
     .state('/',{
         url: '/home',
-        templateUrl: 'views/associateview_intro.html',
-         controller: 'associateWelcomeCtrl'
+            templateUrl: 'views/associateview_intro.html',
+            controller: 'associateWelcomeCtrl'         
     })
     .state('examsettings',{
         url: '/examsettings',
         templateUrl: 'views/associateview_examsettings.html',
-        controller: "associateExamSettingsCtrl"
+        controller: "associateExamSettingsCtrl"        
     })
     .state('examinprogress',{
         url: '/examinprogress',

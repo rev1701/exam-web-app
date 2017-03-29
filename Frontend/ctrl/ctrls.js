@@ -53,12 +53,14 @@ app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, ti
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
     $scope.isEditable = false;
+    $scope.testStarted = false;
 
     //timer info
     $rootScope.timer = $scope.lengthofexam;
     // function to start the cooking timer, use the timer service
     this.StartTimer = function () {
         // use timer service to start timer web worker
+        $scope.testStarted = true;
         timerService.StartTimer($rootScope.timer);
         timerService.GetCurrentTime();
         // console.log(timerService.GetCurrentTime());
@@ -75,15 +77,25 @@ app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, ti
         });
     });
     if (timerService.hasStarted === false) {
-        this.StartTimer();
+        this.StartTimer(); 
     }
 
 }); //controller
 
-app.controller('collapseCtrl', function ($scope) {
+app.controller('collapseCtrl', function ($scope, $location) {
     $scope.isNavCollapsed = true;
     $scope.isCollapsed = false;
     $scope.isCollapsedHorizontal = false;
+
+    $scope.inExam = function(){
+        if(location.href == "http://localhost:3000/#!/examinprogress"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    
 });
 
 app.controller('trainerWelcomeCtrl', function ($scope) {
