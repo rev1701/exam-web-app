@@ -1,8 +1,9 @@
 app.controller('loginCtrl', function($scope, $location, APIService, UserData){
     $scope.msg = "This is the sign in page!";
-    
+    var users;
     var successFunction = function(ship) {
-        var users = ship.data;
+        users = ship.data;
+        console.log(users);
     }
     var errorFunction = function(err) {
         $scope.ship = err;
@@ -35,7 +36,7 @@ app.controller('loginCtrl', function($scope, $location, APIService, UserData){
 
 // associatefirst window controller
 app.controller('associateWelcomeCtrl', function($scope, UserData) {
-    
+    $scope.name = UserData.userName;
 });
 
 app.controller('associateExamSettingsCtrl', function ($scope) {
