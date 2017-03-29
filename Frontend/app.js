@@ -7,13 +7,13 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     $stateProvider
     .state('/',{
         url: '/home',
-        templateUrl: 'views/associateview_intro.html',
-         controller: 'associateWelcomeCtrl'
+            templateUrl: 'views/associateview_intro.html',
+            controller: 'associateWelcomeCtrl'         
     })
     .state('examsettings',{
         url: '/examsettings',
         templateUrl: 'views/associateview_examsettings.html',
-        controller: "associateExamSettingsCtrl"
+        controller: "associateExamSettingsCtrl"        
     })
     .state('examinprogress',{
         url: '/examinprogress',
