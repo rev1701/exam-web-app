@@ -1,0 +1,19 @@
+{
+  "name": "exam-web-app",
+  "version": "1.0.0",
+  "description": "Web app to create and take exams, using Angular and Bootstrap.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rev1701/exam-web-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rev1701/exam-web-app/issues"
+  },
+  "homepage": "https://github.com/rev1701/exam-web-app#readme"
+}
