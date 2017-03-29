@@ -1,6 +1,6 @@
 var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngSanitize']);
 
-app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
+var app2 = app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     $urlRouterProvider.otherwise('/home');
     $qProvider.errorOnUnhandledRejections(false);
     
