@@ -1,11 +1,20 @@
-app.controller('loginCtrl', function($scope, APIService, UserData){
+app.controller('loginCtrl', function($scope, $location, APIService, UserData){
     $scope.msg = "This is the sign in page!";
-    var users = APIService.getUsers();
+    
+    var successFunction = function(ship) {
+        var users = ship.data;
+    }
+    var errorFunction = function(err) {
+        $scope.ship = err;
+    };
+    APIService.getUsers(successFunction,errorFunction);
+
     $scope.check = function checkUser(Email,Pword) {
         angular.forEach(users, function (value, index) {
             if (value.Email == Email && value.Password == Pword) {
                 if(value.UserType == 1){
                     UserData.userName = value.FirstName + " " + value.LastName;
+                    $location.path("/home");
 
                 }
                 else if(value.UserType == 2){
