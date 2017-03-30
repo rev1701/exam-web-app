@@ -1,22 +1,34 @@
-var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap']);
+var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngSanitize']);
 
-app.config(function($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/home');
+app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
+    $urlRouterProvider.otherwise('/login');
+
+// var app2 = app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
+//     $urlRouterProvider.otherwise('/home');
+
+    $qProvider.errorOnUnhandledRejections(false);
     
     $stateProvider
     .state('/',{
         url: '/home',
-        templateUrl: 'views/associateview_intro.html',
-         controller: 'associateWelcomeCtrl'
+            templateUrl: 'views/associateview_intro.html',
+            controller: 'associateWelcomeCtrl'         
     })
     .state('examsettings',{
         url: '/examsettings',
         templateUrl: 'views/associateview_examsettings.html',
-        controller: "associateExamSettingsCtrl"
+        controller: "associateExamSettingsCtrl"        
     })
     .state('examinprogress',{
         url: '/examinprogress',
-        templateUrl: 'views/associateview_examinprogress.html',
+        views:{
+            '': {
+            templateUrl: 'views/examnavbar.html'}
+            ,
+            'progress@examinprogress':{
+            templateUrl: 'views/associateview_examinprogress.html',
+            }
+        },
         controller: 'associateInExamCtrl'
     })
     .state('login',{

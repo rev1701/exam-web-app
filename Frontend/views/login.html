@@ -1,4 +1,4 @@
-<div>
+<div ng-controller="loginCtrl" data-ng-app="USL1701.Frontend">
     <div class="jumbotron welcome">
         <h1 class="display-3 bg-primary" id="welcometext">WELCOME TO LMS REMASTERED</h1>
         <br>
@@ -8,17 +8,16 @@
 
     <div class="loginblock">
         <div id="emaillabel">
-        Email: <input type="text" placeholder="username@email.com">
+        Email: <input type="text" ng-model="Email" placeholder="username@email.com">
         </div>
         <br>
         <div id="passwordlabel">
-        Password:  <input type="password" placeholder="Enter password here">
+        Password:  <input type="password" ng-model="Pword" placeholder="Enter password here">
         </div>
         
         <br><br>
         <div class="text-center">
-            <a href="#"><button type="button" class='btn btn-success btn-lg' id="loginsignupbuttons">Login</button></a>
-            <!--<a href="#"><button type="button" class='btn btn-primary' id="loginsignupbuttons">Sign Up</button></a>-->
+            <a href="#"><button type="button" class='btn btn-success btn-lg' ng-click="check(Email,Pword)" id="loginsignupbuttons">Login</button></a>
         </div>
     </div>
 </div>

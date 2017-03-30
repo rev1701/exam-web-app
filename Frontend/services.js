@@ -6,9 +6,11 @@
 
 app.service('timerService', function($rootScope) {
     var timerWorker = undefined; // if not undefined then web worker is running
+    this.hasStarted = false;
     
     // start timer web worker
     this.StartTimer = function(timeInSeconds) {
+        this.hasStarted = true;
         // if worker exist, then reset
         if (timerWorker) {
             TimerReset(timerWorker);
@@ -78,3 +80,27 @@ function TimerReset(timerworker) {
         timerworker = undefined; // delete
     }    
 };
+
+
+//factory service to get data from our Login Web API
+app.service("APIService", function ($http) {
+    this.getUsers = function (successCallback,errorCallback) {
+         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login")
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+});
+
+app.service("UserData", function(){
+    var User = {
+    status : '',
+    batchName : '',
+    batchTrainer : '',
+    userName : '',
+    userType : ''
+    };
+    return User;
+});
