@@ -101,6 +101,6 @@ app.service("UserData", function(){
     batchTrainer : '',
     userName : '',
     userType : ''
-    };
+    };   
     return User;
 });

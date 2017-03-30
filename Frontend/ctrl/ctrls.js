@@ -1,4 +1,4 @@
-app.controller('loginCtrl', function($scope, $location, APIService, UserData){
+app.controller('loginCtrl', function($scope, $location, $state, APIService, UserData){
     $scope.msg = "This is the sign in page!";
     var users;
     var successFunction = function(ship) {
@@ -15,7 +15,10 @@ app.controller('loginCtrl', function($scope, $location, APIService, UserData){
             if (value.Email == Email && value.Password == Pword) {
                 if(value.UserType == 1){
                     UserData.userName = value.FirstName + " " + value.LastName;
-                    $location.path("/home");
+                    
+                    $state.transitionTo('/');
+                    //$location.url("/home");
+                    //
 
                 }
                 else if(value.UserType == 2){
