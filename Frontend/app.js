@@ -1,7 +1,7 @@
-var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngSanitize']);
+var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate']);
 
-var app2 = app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
-    $urlRouterProvider.otherwise('/home');
+app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
+    $urlRouterProvider.otherwise('/login');
     $qProvider.errorOnUnhandledRejections(false);
     
     $stateProvider
@@ -34,8 +34,16 @@ var app2 = app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     })
     .state('trainerwelcome',{
         url: '/trainerwelcome',
-        templateUrl: 'views/trainerview_welcome.html',
-        controller: 'trainerWelcomeCtrl'
+        views:{
+            '': {
+                templateUrl: 'views/trainerview_welcome.html',
+                controller: 'trainerWelcomeCtrl'
+            },
+            'gradebook@trainerwelcome':{
+                templateUrl: 'views/gradebook.html',
+                controller: 'trainerWelcomeCtrl'
+            }
+        }
     });    
     
 });

@@ -71,9 +71,18 @@ app.controller('collapseCtrl', function ($scope, $location) {
     
 });
 
-app.controller('trainerWelcomeCtrl', function ($scope) {
+app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
+    
+    var successFunction = function(batch){
+        $scope.batchName = batch.data.BatchID;
+    }
+    var errorFunction = function(err){
+        $scope.batchName = err;
+    }
+
+    getBatchInfoService.getBatch(successFunction, errorFunction);
+
     $scope.userName = "Joe Kirkbride";
-    $scope.batchName = "1701 .NET";
     $scope.userType = "Trainer";
     $scope.numOfAssociates = 8;
 });
