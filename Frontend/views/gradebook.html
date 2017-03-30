@@ -6,19 +6,27 @@
     <table>
         <thead>
             <tr>
-            <th>
-                #
-            </th>
-            <th>
-                Name
-            </th>
-            <th>
-                Exam {{index}}
-            </th>
+                <th>
+                    #
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Exam {{index}}
+                </th>
             </tr>
         </thead>
         <tbody>
-            
+            <tr ng-repeat="items in fullname">
+            <!--<tr>-->
+                <td>
+                   {{items.UserID}}
+                </td>
+                <td>
+                     {{items.User.fname}} {{items.User.lname}}
+                </td>
+            </tr>
         </tbody>
     </table>
 </div>

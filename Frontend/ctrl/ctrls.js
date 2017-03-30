@@ -75,6 +75,7 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
     
     var successFunction = function(batch){
         $scope.batchName = batch.data.BatchID;
+        $scope.fullname = batch.data.Rosters;
     }
     var errorFunction = function(err){
         $scope.batchName = err;
