@@ -1,14 +1,46 @@
-app.controller('loginCtrl', function ($scope) {
-    $scope.msg = "This is the sign in page!";
+app.controller('loginCtrl', function ($scope, $location, APIService, UserData) {
+    var users;
+    var successFunction = function (ship) {
+        users = ship.data;
+        console.log(users);
+    }
+    var errorFunction = function (err) {
+        $scope.ship = err;
+    };
+    APIService.getUsers(successFunction, errorFunction);
+
+    $scope.check = function checkUser(Email, Pword) {
+        angular.forEach(users, function (value, index) {
+            if (value.Email == Email && value.Password == Pword) {
+                if (value.UserType == 1) {
+                    UserData.userName = value.FirstName + " " + value.LastName;
+                    $location.path("/home");
+
+                }
+                else if (value.UserType == 2) {
+                    UserData.userName = value.FirstName + " " + value.LastName;
+                    location.href = "http://localhost:3000/#!/home";
+                }
+                else if (value.UserType == 3) {
+
+                }
+                else {
+
+                }
+
+            }
+        })
+    }
 });
 
 
 // associatefirst window controller
-app.controller('associateWelcomeCtrl', function ($scope) {
+app.controller('associateWelcomeCtrl', function ($scope, UserData) {
+
     $scope.status = "Doing Great!";
     $scope.batchName = "1701 .NET";
     $scope.batchTrainer = "Joe Kirkbride";
-    $scope.userName = "Stephen Kirkland";
+    $scope.userName = UserData.userName;
     $scope.userType = "Associate";
 });
 
