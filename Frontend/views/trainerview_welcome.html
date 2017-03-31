@@ -11,7 +11,8 @@
             # of Associates: {{numOfAssociates}}
         </div>
         <div class="gradebookbutton">
-            <a href="" id="gradebooklink">Gradebook</a>
+            <a href="#!/trainerwelcome" id="gradebooklink" ng-click="DisplayGB()">Gradebook</a>
+            {{gradeBookClicked}}
         </div>
         <div class="detailsandsyllabusblock">
             <a href="">Details and Syllabus</a>
@@ -20,7 +21,7 @@
             <a href="">Add Test to Batch</a>
         </div>
         <br><br>
-        <input type="checkbox" ng-model="myVar">
+        <!--<input type="checkbox" ng-model="blah">-->
         <br>     
         <br><br><br><br>
         
@@ -36,7 +37,6 @@
         </div>
         <br>
         <br>
-        <div ui-view="gradebook" ></div>
-<!--ng-hide="!myVar" //// this goes in the div tag above; just took it out for faster coding-->
+        <div ui-view="gradebook" ng-show="DisplayGB()"></div>
     </div>
 </div>

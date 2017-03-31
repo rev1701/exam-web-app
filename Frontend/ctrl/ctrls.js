@@ -118,4 +118,12 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
     $scope.userName = "Joe Kirkbride";
     $scope.userType = "Trainer";
     $scope.numOfAssociates = 8;
+    $scope.gradeBookClicked = false;
+    $scope.DisplayGB = function (){
+        $scope.gradeBookClicked = !($scope.gradeBookClicked);
+        return $scope.gradeBookClicked;
+    }
+
+    
+    console.log($scope.gradeBookClicked);
 });
