@@ -81,19 +81,22 @@
                 </div> <!-- .row -->
             </div> <!-- .questionslist -->
             <div class="sampletimerbox">
-            Timer: {{timer}}
-            <span ng-controller="associateInExamCtrl" ng-model="displaytimer">{{displaytimer}}</span>
+                Timer: {{timer}}
+                <span ng-controller="associateInExamCtrl" ng-model="displaytimer">{{displaytimer}}</span>
             </div> <!-- .sampletimerbox -->
+            <div class="flagaquestion">
+                <a href=""><button type="button" class='btn btn-warning'><span class="glyphicon glyphicon-flag"></span> Flag</button></a>
+            </div>
         </div> <!-- .questionsreviewbox -->
     </div> <!-- .col-md-2 -->
 
-<!--Giving a little more separation between the questions and the content.-->
+    <!--Giving a little more separation between the questions and the content.-->
     <div class="col-md-1">
     </div>
 
-<!-- Disply where the questions and answers will be presented -->
+    <!-- Disply where the questions and answers will be presented -->
     <div class="col-md-6">
-        <div class="questiondescription" >
+        <div class="questiondescription">
             {{question}}
         </div> <!-- .questiondescription -->
         <br><br>
@@ -102,8 +105,8 @@
         </div> <!-- .answeroptions -->
         <br><br>
         <div class="prevornext">
-            <a href="#"><button type="button" class='btn btn-primary'>Prev</button></a>
-            <a href="#"><button type="button" class='btn btn-success'>Next</button></a>
+            <a href="#!/home"><button type="button" class='btn btn-primary'>Prev</button></a>
+            <a href=""><button type="button" class='btn btn-success'>Next</button></a>
         </div> <!-- .prevornext -->
     </div> <!-- .col-md-6 -->
 </div> <!-- end entire partial view -->
