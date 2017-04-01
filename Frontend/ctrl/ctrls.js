@@ -104,10 +104,12 @@ app.controller('collapseCtrl', function ($scope, $location) {
 });
 
 app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
-    
+    var clicked = false;
+
     var successFunction = function(batch){
         $scope.batchName = batch.data.BatchID;
         $scope.fullname = batch.data.Rosters;
+        $scope.numOfAssociates = batch.data.Rosters.length;
     }
     var errorFunction = function(err){
         $scope.batchName = err;
@@ -117,13 +119,5 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
 
     $scope.userName = "Joe Kirkbride";
     $scope.userType = "Trainer";
-    $scope.numOfAssociates = 8;
-    $scope.gradeBookClicked = false;
-    $scope.DisplayGB = function (){
-        $scope.gradeBookClicked = !($scope.gradeBookClicked);
-        return $scope.gradeBookClicked;
-    }
-
-    
-    console.log($scope.gradeBookClicked);
+  
 });
