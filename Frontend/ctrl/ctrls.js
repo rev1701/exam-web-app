@@ -1,38 +1,35 @@
-app.controller('loginCtrl', function ($scope, $location, APIService, UserData) {
-    var users;
-    var successFunction = function (ship) {
-        users = ship.data;
-        console.log(users);
+(function () {
+    'use strict';
+
+    app.controller('loginCtrl', LoginController);
+
+    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
+    function LoginController($location, AuthenticationService, FlashService) {
+        var vm = this;
+
+        vm.login = login;
+
+        (function initController() {
+            // reset login status
+            AuthenticationService.ClearCredentials();
+        })();
+
+        function login() {
+            vm.dataLoading = true;
+            AuthenticationService.Login(vm.email, vm.password, function (response) {
+                if (response.success) {
+                    AuthenticationService.SetCredentials(vm.email, vm.password);
+                    $location.path('/home');
+                    // location.href = "http://localhost:3000/#!/home";
+                } else {
+                    FlashService.Error(response.message);
+                    vm.dataLoading = false;
+                }
+            });
+        };
     }
-    var errorFunction = function (err) {
-        $scope.ship = err;
-    };
-    APIService.getUsers(successFunction, errorFunction);
 
-    $scope.check = function checkUser(Email, Pword) {
-        angular.forEach(users, function (value, index) {
-            if (value.Email == Email && value.Password == Pword) {
-                if (value.UserType == 1) {
-                    UserData.userName = value.FirstName + " " + value.LastName;
-                    $location.path("/home");
-
-                }
-                else if (value.UserType == 2) {
-                    UserData.userName = value.FirstName + " " + value.LastName;
-                    location.href = "http://localhost:3000/#!/home";
-                }
-                else if (value.UserType == 3) {
-
-                }
-                else {
-
-                }
-
-            }
-        })
-    }
-});
-
+})();
 
 // associatefirst window controller
 app.controller('associateWelcomeCtrl', function ($scope, UserData) {
