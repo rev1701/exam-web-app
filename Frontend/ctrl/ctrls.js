@@ -104,12 +104,26 @@ app.controller('collapseCtrl', function ($scope, $location) {
 });
 
 app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
-    var clicked = false;
+    var gradebookClicked = false; // variable that determines if Gradebook is clicked 
 
     var successFunction = function(batch){
+        var noa = 0; // noa stands for number of associates in a batch
+        
+        // only retreives the associates from a batch
+        // could actually put this function in the service, but running low on time of completion
+        for(var i = 0; i < batch.data.Rosters.length; i++){
+            if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
+                noa++;
+            }
+        }
         $scope.batchName = batch.data.BatchID;
-        $scope.fullname = batch.data.Rosters;
-        $scope.numOfAssociates = batch.data.Rosters.length;
+        // for(var i = 0; i < batch.data.Rosters.length; i++){
+        //     if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
+                $scope.fullname = batch.data.Rosters;
+        //     }
+        // }
+        
+        $scope.numOfAssociates = noa;
     }
     var errorFunction = function(err){
         $scope.batchName = err;

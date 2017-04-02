@@ -18,8 +18,8 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="items in fullname">
-            <!--<tr>-->
+            <!--Only populates the gradebook with associates of a batch-->
+            <tr ng-repeat="items in fullname" ng-if="items.User.UserType1.Role == 'Associate'">
                 <td>
                    {{items.UserID}}
                 </td>

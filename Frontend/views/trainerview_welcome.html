@@ -11,8 +11,7 @@
             # of Associates: {{numOfAssociates}}
         </div>
         <div class="gradebookbutton">
-            <a href="" id="gradebooklink" ng-click="clicked = !clicked">Gradebook</a>
-            {{gradeBookClicked}}
+            <a href="" id="gradebooklink" ng-click="gradebookClicked = !gradebookClicked">Gradebook</a>
         </div>
         <div class="detailsandsyllabusblock">
             <a href="">Details and Syllabus</a>
@@ -37,6 +36,6 @@
         </div>
         <br>
         <br>
-        <div ui-view="gradebook" ng-show="clicked"></div>
+        <div ui-view="gradebook" ng-show="gradebookClicked"></div>
     </div>
 </div>
