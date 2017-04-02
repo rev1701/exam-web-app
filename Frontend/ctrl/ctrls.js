@@ -5,6 +5,12 @@
 
     LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
     function LoginController($location, AuthenticationService, FlashService) {
+        
+        var test = function(){
+            console.log("testing");
+        };
+
+        // got this code from http://jasonwatmore.com/post/2015/03/10/angularjs-user-registration-and-login-example-tutorial#projectstructure
         var vm = this;
 
         vm.login = login;
@@ -28,7 +34,7 @@
             });
         };
     }
-
+// APIService.getUsers(successFunction, errorFunction);
 })();
 
 // associatefirst window controller

@@ -143,7 +143,7 @@ app.service("UserData", function () {
                         if (user !== null && user.password === password) {
                             response = { success: true };
                         } else {
-                            response = { success: false, message: 'email or password is incorrect' };
+                            response = { success: false, message: 'Email or password is incorrect. Please try again.' };
                         }
                         callback(response);
                     });
@@ -330,7 +330,7 @@ app.service("UserData", function () {
 
         service.GetAll = GetAll;
         // service.GetById = GetById;
-        // service.GetByUsername = GetByUsername;
+        service.GetByEmail = GetByEmail;
         // service.Create = Create;
         // service.Update = Update;
         // service.Delete = Delete;
@@ -346,9 +346,10 @@ app.service("UserData", function () {
         //     return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
         // }
 
-        // function GetByUsername(username) {
-        //     return $http.get('/api/users/' + username).then(handleSuccess, handleError('Error getting user by username'));
-        // }
+        function GetByEmail(email) {
+            // var domain = $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login");
+            return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login").then(handleSuccess, handleError('Error getting user by username'));
+        }
 
         // function Create(user) {
         //     return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
