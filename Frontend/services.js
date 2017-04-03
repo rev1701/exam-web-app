@@ -140,7 +140,7 @@ app.service("UserData", function () {
                 var response;
                 UserService.GetByEmail(email)
                     .then(function (user) {
-                        if (user !== null && user.password === password) {
+                        if (user !== null && user.Password === password) {
                             response = { success: true };
                         } else {
                             response = { success: false, message: 'Email or password is incorrect. Please try again.' };
