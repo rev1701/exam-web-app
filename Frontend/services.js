@@ -348,7 +348,7 @@ app.service("UserData", function () {
 
         function GetByEmail(email) {
             // var domain = $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login");
-            return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login").then(handleSuccess, handleError('Error getting user by username'));
+            return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/users/getuser?email="+email).then(handleSuccess, handleError('Error getting user by username'));
         }
 
         // function Create(user) {

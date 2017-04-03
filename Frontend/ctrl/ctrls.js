@@ -104,6 +104,7 @@ app.controller('collapseCtrl', function ($scope, $location) {
 
 app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
+    var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
     var successFunction = function(batch){
         var noa = 0; // noa stands for number of associates in a batch
