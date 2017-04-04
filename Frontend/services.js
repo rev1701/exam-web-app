@@ -120,7 +120,7 @@ app.service("UserData", function () {
 (function () {
     'use strict';
 
-    app.factory('AuthenticationService', AuthenticationService);
+    app.service('AuthenticationService', AuthenticationService);
 
     AuthenticationService.$inject = ['$http', '$rootScope', '$timeout', 'UserService'];
     function AuthenticationService($http, $rootScope, $timeout, UserService) {

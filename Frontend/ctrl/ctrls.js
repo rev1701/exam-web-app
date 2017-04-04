@@ -30,18 +30,41 @@
             });
         };
     }
-// APIService.getUsers(successFunction, errorFunction);
+    // APIService.getUsers(successFunction, errorFunction);
 })();
 
 // associatefirst window controller
-app.controller('associateWelcomeCtrl', function ($scope, UserData) {
+(function () {
+    'use strict';
+    app.controller('associateWelcomeCtrl', HomeController, function ($scope) {
+        $scope.status = "Doing Great!";
+        $scope.batchName = "1701 .NET";
+        $scope.batchTrainer = "Joe Kirkbride";
+        $scope.userName = vm.user.FirstName;
+        $scope.userType = "Associate";
+    });
+})();
 
-    $scope.status = "Doing Great!";
-    $scope.batchName = "1701 .NET";
-    $scope.batchTrainer = "Joe Kirkbride";
-    $scope.userName = UserData.userName;
-    $scope.userType = "Associate";
-});
+HomeController.$inject = ['UserService', '$rootScope'];
+function HomeController(UserService, $rootScope) {
+    var vm = this;
+
+    vm.user;
+    vm.allUsers = [];
+
+    initController();
+
+    function initController() {
+        loadCurrentUser();
+    }
+
+    function loadCurrentUser() {
+        UserService.GetByEmail($rootScope.globals.currentUser.email)
+            .then(function (user) {
+                vm.user = user;
+            });
+    }
+}
 
 app.controller('associateExamSettingsCtrl', function ($scope) {
     $scope.examname = "Test 1: C# and .NET Framework";
@@ -81,7 +104,7 @@ app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, ti
         });
     });
     if (timerService.hasStarted === false) {
-        this.StartTimer(); 
+        this.StartTimer();
     }
 
 }); //controller
@@ -91,41 +114,38 @@ app.controller('collapseCtrl', function ($scope, $location) {
     $scope.isCollapsed = false;
     $scope.isCollapsedHorizontal = false;
 
-    $scope.inExam = function(){
-        if(location.href == "http://localhost:3000/#!/examinprogress"){
+    $scope.inExam = function () {
+        if (location.href == "http://localhost:3000/#!/examinprogress") {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
-    
+
 });
 
 app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
-    var successFunction = function(batch){
+    var successFunction = function (batch) {
         var noa = 0; // noa stands for number of associates in a batch
-        
+
         // only retreives the associates from a batch
         // could actually put this function in the service, but running low on time of completion
-        for(var i = 0; i < batch.data.Rosters.length; i++){
-            if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
+        for (var i = 0; i < batch.data.Rosters.length; i++) {
+            if (batch.data.Rosters[i].User.UserType1.Role == "Associate") {
                 noa++;
             }
         }
         $scope.batchName = batch.data.BatchID;
-        // for(var i = 0; i < batch.data.Rosters.length; i++){
-        //     if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
-                $scope.fullname = batch.data.Rosters;
-        //     }
-        // }
-        
+        $scope.fullname = batch.data.Rosters;
+
+
         $scope.numOfAssociates = noa;
     }
-    var errorFunction = function(err){
+    var errorFunction = function (err) {
         $scope.batchName = err;
     }
 
@@ -133,5 +153,5 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
 
     $scope.userName = "Joe Kirkbride";
     $scope.userType = "Trainer";
-  
+
 });

@@ -11,7 +11,8 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     .state('/',{
         url: '/home',
             templateUrl: 'views/associateview_intro.html',
-            controller: 'associateWelcomeCtrl'         
+            controller: 'associateWelcomeCtrl',
+            controllerAs: 'vm'        
     })
     .state('examsettings',{
         url: '/examsettings',
