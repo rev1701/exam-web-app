@@ -21,8 +21,12 @@
             AuthenticationService.Login(vm.email, vm.password, function (response) {
                 if (response.success) {
                     AuthenticationService.SetCredentials(vm.email, vm.password);
-                    $location.path('/home');
-                    // location.href = "http://localhost:3000/#!/home";
+                    if (response.userType == 1) {
+                        $location.path('/home');
+                    }
+                    if (response.userType == 3) {
+                        $location.path('/trainerwelcome');
+                    }
                 } else {
                     FlashService.Error(response.message);
                     vm.dataLoading = false;
@@ -36,21 +40,17 @@
 // associatefirst window controller
 (function () {
     'use strict';
-    app.controller('associateWelcomeCtrl', HomeController, function ($scope) {
-        $scope.status = "Doing Great!";
-        $scope.batchName = "1701 .NET";
-        $scope.batchTrainer = "Joe Kirkbride";
-        $scope.userName = vm.user.FirstName;
-        $scope.userType = "Associate";
-    });
+    app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', '$rootScope'];
-function HomeController(UserService, $rootScope) {
-    var vm = this;
-
-    vm.user;
-    vm.allUsers = [];
+HomeController.$inject = ['UserService', '$rootScope', '$scope'];
+function HomeController(UserService, $rootScope, $scope) {
+    $scope.user;
+    $scope.status = "Doing Great!";
+    $scope.batchName = "1701 .NET";
+    $scope.batchTrainer = "Joe Kirkbride";
+    // $scope.userName = vm.user.FirstName;
+    $scope.userType = "Associate";
 
     initController();
 
@@ -61,7 +61,8 @@ function HomeController(UserService, $rootScope) {
     function loadCurrentUser() {
         UserService.GetByEmail($rootScope.globals.currentUser.email)
             .then(function (user) {
-                vm.user = user;
+                // vm.user = user;
+                $scope.user = user;
             });
     }
 }
@@ -125,7 +126,7 @@ app.controller('collapseCtrl', function ($scope, $location) {
 
 });
 
-app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
+app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchInfoService) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
@@ -141,8 +142,6 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
         }
         $scope.batchName = batch.data.BatchID;
         $scope.fullname = batch.data.Rosters;
-
-
         $scope.numOfAssociates = noa;
     }
     var errorFunction = function (err) {
@@ -151,7 +150,6 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
 
     getBatchInfoService.getBatch(successFunction, errorFunction);
 
-    $scope.userName = "Joe Kirkbride";
     $scope.userType = "Trainer";
 
 });
