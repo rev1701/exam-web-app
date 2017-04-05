@@ -98,17 +98,14 @@ app.controller('examViewController', function ($scope, examQuestionService, Exam
 
     $scope.addQ = function(eq){
         var question = eq;
-        var weight = 1;
         var successFunction = function(ship) {
-            question = ship.data;
-            $scope.question = question;
-            console.log(question);
-            $state.go('examQuestionView');
+            console.log(ship.data);
+            $state.reload();
         };
         var errorFunction = function(err) {
             $scope.ship = err;
         };
-        examQuestionService.addQ(exam.ExamTemplateID, weight, question, successFunction,errorFunction);
+        examQuestionService.addQ(exam.ExamTemplateID, question.ExamQuestionID, successFunction,errorFunction);
     }
 
 });

@@ -39,12 +39,14 @@ app.service("examQuestionService", function ($http) {
         });
     };
 
-    this.addQ = function (examTemplateID, weight, question, successCallback, errorCallback){
-        $http.put("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/AddQuestionToExam", examTemplateID, weight, question)
+    this.addQ = function (examTemplateID, question, successCallback, errorCallback){
+        $http.put("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/AddQuestionToExam/?extid="+examTemplateID+"&weight=1", JSON.stringify(question))
         .then(function(data){
             successCallback(data);
         }, function(err){
+            console.log(err);
             errorCallback(err);
+
         });
     };
 
