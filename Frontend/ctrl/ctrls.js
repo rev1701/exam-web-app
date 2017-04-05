@@ -61,7 +61,6 @@ function HomeController(UserService, $rootScope, $scope) {
     function loadCurrentUser() {
         UserService.GetByEmail($rootScope.globals.currentUser.email)
             .then(function (user) {
-                // vm.user = user;
                 $scope.user = user;
             });
     }
