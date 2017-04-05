@@ -13,9 +13,9 @@
 			
   	<div ng-repeat="eq in questions">
 		<div ng-repeat="quest in eq">
-			<div ng-repeat="d in quest track by $index" ng-click="addQ(eq)">
+			<a href="" ng-repeat="d in quest track by $index" ng-click="addQ(eq)">
 			{{d.Description}}
-			</div>
+			</a>
 		</div>
 	</div>
 
