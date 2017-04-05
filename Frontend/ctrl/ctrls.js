@@ -43,8 +43,8 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
@@ -88,6 +88,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
             }
         }
 
+
         for(var i = 0; i < batch.data[0].Rosters.length; i++){
             if(batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email){
                 $scope.status = batch.data[0].Rosters[i].StatusType.Description;
@@ -108,6 +109,48 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
 
 }
 
+
+app.controller('examViewController', function ($scope, examQuestionService, ExamData, $state){
+    var exam = ExamData.exam;
+    var successFunction = function(ship) {
+        exam = ship.data;
+        $scope.exam = exam;
+        console.log(exam.ExamQuestions[0].quest);
+        console.log(exam);
+    };
+    var errorFunction = function(err) {
+        $scope.ship = err;
+    };
+    examQuestionService.getExamQuestions(exam, successFunction,errorFunction);
+    
+    $scope.addQuestionToExam = function (){
+        var questions;
+        var successFunction = function(ship) {
+            questions = ship.data;
+            $scope.questions = questions;
+            console.log(questions);
+        };
+        var errorFunction = function(err) {
+            $scope.ship = err;
+        };
+        examQuestionService.getAllQuestions(successFunction,errorFunction); 
+    };
+
+    $scope.addQ = function(eq){
+        var question = eq;
+        var successFunction = function(ship) {
+            console.log(ship.data);
+            $state.reload();
+        };
+        var errorFunction = function(err) {
+            $scope.ship = err;
+        };
+        examQuestionService.addQ(exam.ExamTemplateID, question.ExamQuestionID, successFunction,errorFunction);
+    }
+
+});
+
+
 app.controller('associateExamSettingsCtrl', function ($scope) {
     $scope.examname = "Test 1: C# and .NET Framework";
     $scope.startdate = "Monday, April 3, 2017";
@@ -115,6 +158,24 @@ app.controller('associateExamSettingsCtrl', function ($scope) {
     $scope.endtime = "12:00 pm";
     $scope.lengthofexam = 90;
     $scope.numberofquestions = 23;
+});
+
+app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state){
+    var exams;
+    var successFunction = function(ship) {
+        exams = ship.data;
+        $scope.exams = exams;
+        console.log(exams);
+    };
+    var errorFunction = function(err) {
+        $scope.ship = err;
+    };
+    examService.getExams(successFunction,errorFunction);
+    $scope.getExamQuestions = function (e){
+        console.log(e);
+        ExamData.exam = e;
+        $state.go('examQuestionView');
+    };
 });
 
 app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService) {
@@ -166,7 +227,7 @@ app.controller('collapseCtrl', function ($scope, $location) {
 
 });
 
-app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchInfoService) {
+app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchInfoService, $state) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
@@ -189,6 +250,9 @@ app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchI
     }
 
     getBatchInfoService.getBatch(successFunction, errorFunction);
+    $scope.routeToExams = function(){
+        $state.go('trainerChangeExistingExam');
+    };
 
     $scope.userType = "Trainer";
 

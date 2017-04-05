@@ -1,4 +1,4 @@
-<div>
+<div class="associateviewintro">
     <div class="col-md-4" id="assocaitestanding">
         
         <div id="associatestandinglabel">
@@ -20,7 +20,7 @@
     </div>
 
 
-    <div class-"col-md-8" id="assocaitedetails">
+    <div class="col-md-8" id="assocaitedetails">
         <div class="welcomeuser">
             <b>Welcome {{user.fname}} {{user.lname}}!</b>
         </div>
@@ -31,7 +31,11 @@
         <br>
         <br>
         <div id="associatestandinglabel">
-            <b><u>Weeks</u></b>
+            <b><u>Exam</u></b>
+        </div>
+        <br>
+        <div id="listofexams" ng-repeat="items in exams">
+            dfs
         </div>
 
     </div>

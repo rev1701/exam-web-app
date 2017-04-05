@@ -9,6 +9,54 @@ app.service("getBatchInfoService", function($http){
     }
 });
 
+app.service("examService", function ($http) {
+    this.getExams = function (successCallback,errorCallback) {
+         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/GetIdList")
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+});
+
+app.service("examQuestionService", function ($http) {
+    this.getExamQuestions = function (examid, successCallback,errorCallback) {
+         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/GetExam/"+examid)
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+
+    this.getAllQuestions = function (successCallback, errorCallback){
+        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamQuestion/GetAllExamQuestions")
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+
+    this.addQ = function (examTemplateID, question, successCallback, errorCallback){
+        $http.put("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/AddQuestionToExam/?extid="+examTemplateID+"&weight=1", JSON.stringify(question))
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            console.log(err);
+            errorCallback(err);
+
+        });
+    };
+
+});
+
+app.service("ExamData", function () {
+    var exam = {};
+    return exam;
+});
+
 
 // service for timer
 // features:
