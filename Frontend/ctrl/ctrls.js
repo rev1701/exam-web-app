@@ -48,7 +48,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
-    $scope.status = "Doing Great!"; // here
+    $scope.status;
     $scope.batchName;
     $scope.batchTrainer;
 
@@ -59,6 +59,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
     }
 
     function loadCurrentUser() {
+        // doesn't work: if user isn't signed in, will reroute automatically to login screen
         if ($rootScope.globals.currentUser == undefined) {
             $location.path('/login');
         }
@@ -80,12 +81,19 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
             }
         }
 
-        // 
+        // returns the correct trainer of a particular batch
         for(var i = 0; i < batch.data[0].Rosters.length; i++){
             if(batch.data[0].Rosters[i].User.UserType1.Role == "Trainer"){
                 $scope.batchTrainer = batch.data[0].Rosters[i].User.fname + " " + batch.data[0].Rosters[i].User.lname;
             }
         }
+
+        for(var i = 0; i < batch.data[0].Rosters.length; i++){
+            if(batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email){
+                $scope.status = batch.data[0].Rosters[i].StatusType.Description;
+            }
+        }
+
 
         $scope.batchName = batch.data[0].BatchID; // returns the batches name
         $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
