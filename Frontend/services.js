@@ -22,13 +22,32 @@ app.service("examService", function ($http) {
 
 app.service("examQuestionService", function ($http) {
     this.getExamQuestions = function (examid, successCallback,errorCallback) {
-         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/?extid="+examid)
+         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/GetExam/"+examid)
         .then(function(data){
             successCallback(data);
         }, function(err){
             errorCallback(err);
         });
     };
+
+    this.getAllQuestions = function (successCallback, errorCallback){
+        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamQuestion/GetAllExamQuestions")
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+
+    this.addQ = function (examTemplateID, weight, question, successCallback, errorCallback){
+        $http.put("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/AddQuestionToExam", examTemplateID, weight, question)
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+
 });
 
 

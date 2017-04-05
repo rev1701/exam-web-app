@@ -75,13 +75,41 @@ app.controller('examViewController', function ($scope, examQuestionService, Exam
     var successFunction = function(ship) {
         exam = ship.data;
         $scope.exam = exam;
+        console.log(exam.ExamQuestions[0].quest);
         console.log(exam);
     };
     var errorFunction = function(err) {
         $scope.ship = err;
     };
     examQuestionService.getExamQuestions(exam, successFunction,errorFunction);
+    
+    $scope.addQuestionToExam = function (){
+        var questions;
+        var successFunction = function(ship) {
+            questions = ship.data;
+            $scope.questions = questions;
+            console.log(questions);
+        };
+        var errorFunction = function(err) {
+            $scope.ship = err;
+        };
+        examQuestionService.getAllQuestions(successFunction,errorFunction); 
+    };
 
+    $scope.addQ = function(eq){
+        var question = eq;
+        var weight = 1;
+        var successFunction = function(ship) {
+            question = ship.data;
+            $scope.question = question;
+            console.log(question);
+            $state.go('examQuestionView');
+        };
+        var errorFunction = function(err) {
+            $scope.ship = err;
+        };
+        examQuestionService.addQ(exam.ExamTemplateID, weight, question, successFunction,errorFunction);
+    }
 
 });
 
