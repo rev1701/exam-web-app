@@ -43,37 +43,68 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', '$rootScope', '$scope'];
-function HomeController(UserService, $rootScope, $scope) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
     $scope.user;
     $scope.userType;
-    $scope.status = "Doing Great!";
-    $scope.batchName = "1701 .NET";
-    $scope.batchTrainer = "Joe Kirkbride";
+    $scope.userEmail;
+    $scope.status;
+    $scope.batchName;
+    $scope.batchTrainer;
 
     initController();
 
     function initController() {
         loadCurrentUser();
-        // getUsersType($scope.userType);
     }
 
     function loadCurrentUser() {
+        // doesn't work: if user isn't signed in, will reroute automatically to login screen
+        if ($rootScope.globals.currentUser == undefined) {
+            $location.path('/login');
+        }
         UserService.GetByEmail2($rootScope.globals.currentUser.email)
             .then(function (user) {
                 $scope.user = user;
                 $scope.userType = user.UserType1.Role;
+                $scope.userEmail = user.email;
             });
     }
+    var successFunction = function (batch) {      
+        var noa = 0; // noa stands for number of associates in a batch
 
-    function getUsersType(type){
-        if(type == 1){
-            $scope.userType = "Associate";
+        // only retreives the associates from a batch
+        // could actually put this function in the service, but running low on time of completion
+        for (var i = 0; i < batch.data[0].Rosters.length; i++) {
+            if (batch.data[0].Rosters[i].User.UserType1.Role == "Associate") {
+                noa++;
+            }
         }
-        else if(type == 3){
-            $scope.userType = "Trainer";
+
+        // returns the correct trainer of a particular batch
+        for(var i = 0; i < batch.data[0].Rosters.length; i++){
+            if(batch.data[0].Rosters[i].User.UserType1.Role == "Trainer"){
+                $scope.batchTrainer = batch.data[0].Rosters[i].User.fname + " " + batch.data[0].Rosters[i].User.lname;
+            }
         }
-    } // getUsersType
+
+        for(var i = 0; i < batch.data[0].Rosters.length; i++){
+            if(batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email){
+                $scope.status = batch.data[0].Rosters[i].StatusType.Description;
+            }
+        }
+
+
+        $scope.batchName = batch.data[0].BatchID; // returns the batches name
+        $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
+        $scope.numOfAssociates = noa; // return the number of associates in a batch
+    }
+    var errorFunction = function (err) {
+        $scope.batchName = err;
+    }
+
+    // getBatchInfoService.getBatch(successFunction, errorFunction);
+    getBatchInfoService.getBatch($rootScope.globals.currentUser.email, successFunction, errorFunction);
 
 }
 
