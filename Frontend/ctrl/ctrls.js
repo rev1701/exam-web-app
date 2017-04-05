@@ -43,8 +43,8 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location, $state) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
@@ -99,6 +99,11 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
         $scope.batchName = batch.data[0].BatchID; // returns the batches name
         $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
         $scope.numOfAssociates = noa; // return the number of associates in a batch
+
+        $scope.routeToExams = function () {
+            console.log("clicked");
+            $state.go('trainerChangeExistingExam');
+        };
     }
     var errorFunction = function (err) {
         $scope.batchName = err;
@@ -227,7 +232,7 @@ app.controller('collapseCtrl', function ($scope, $location) {
 
 });
 
-app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchInfoService, $state) {
+app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchInfoService) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
@@ -250,9 +255,6 @@ app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchI
     }
 
     getBatchInfoService.getBatch(successFunction, errorFunction);
-    $scope.routeToExams = function(){
-        $state.go('trainerChangeExistingExam');
-    };
 
     $scope.userType = "Trainer";
 
