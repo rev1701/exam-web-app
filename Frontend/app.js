@@ -18,6 +18,11 @@ var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.boo
                 templateUrl: 'views/associateview_examsettings.html',
                 controller: "associateExamSettingsCtrl"
             })
+            .state('settings', {
+                url: '/settings',
+                templateUrl: 'views/settings.html',
+                controller: "associateExamSettingsCtrl"
+            })
             .state('examinprogress', {
                 url: '/examinprogress',
                 views: {

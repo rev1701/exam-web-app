@@ -1,0 +1,133 @@
+<div class="container">
+  <form name="myForm">
+
+    <md-content>
+      <div layout-gt-xs="row">
+        <div flex-gt-xs>
+          <h4>Start Date</h4>
+          <md-datepicker ng-model="myDate" md-placeholder="Enter date" md-is-open="isOpen" md-placeholder="Enter date" md-min-date="minDate"
+            md-max-date="maxDate"></md-datepicker>
+          <md-button class="md-primary md-raised" ng-click="isOpen = true">Open</md-button>
+        </div>
+      </div>
+    </md-content>
+
+    <br />
+
+    <div class="row">
+      <label for="timeInput">Select A Time</label>
+      <select class="form-control" id="timeInput" ng-model="startTime2">
+        <option type="number" value="8">8:00am</option>
+        <option type="number" value="9">9:00am</option>
+        <option type="number" value="10">10:00am</option>
+        <option type="number" value="11">11:00am</option>
+        <option type="number" value="12">12:00pm</option>
+        <option type="number" value="13">1:00pm</option>
+        <option type="number" value="14">2:00pm</option>
+        <option type="number" value="15">3:00pm</option>
+        <option type="number" value="16">4:00pm</option>
+        <option type="number" value="17">5:00pm</option>
+      </select>
+    </div>
+
+    <br />
+
+    <div class="row">
+      <label for="lotInput" class="col-md-2 col-form-label">Length Of Test (Minutes)</label>
+      <div class="col-md-2">
+        <input class="" name="lotMinute" ng-model="timeLimitInMinutes" type="number" value="Length Of Test" id="lotInput" min="1"
+          max="240" required>
+      </div>
+
+      <div role="alert">
+        <span class="error" ng-show="myForm.lotMinute.$error.required">
+         Required!</span>
+        <span class="error" ng-show="myForm.lotMinute.$error.min">
+         Too Short!</span>
+        <span class="error" ng-show="myForm.lotMinute.$error.max">
+         Too Long!</span>
+      </div>
+
+    </div>
+
+    <br />
+
+    <div class="row">
+      <label for="timeOpen" class="col-md-2 col-form-label">Exam Open Time (Hours)</label>
+      <div class="col-md-2">
+        <input class="" name="eotHours" ng-model="timeOpenInHours" type="number" value="Time Test Is Open" id="timeOpen" min="2"
+          max="7">
+      </div>
+    </div>
+
+    <div role="alert">
+      <span class="error" ng-show="myForm.eotHours.$error.required">
+         Required!</span>
+      <span class="error" ng-show="myForm.eotHours.$error.min">
+         Too Short!</span>
+      <span class="error" ng-show="myForm.eotHours.$error.max">
+         Too Long!</span>
+    </div>
+
+    <br/>
+
+    <div class="row">
+      <label for="allowedAttempts" class="col-md-2 col-form-label">Allowed Attempts</label>
+      <div class="col-md-2">
+        <input class="" name="allowedExamAttempts" ng-model="allowedAttempts" type="number" value="Time Test Is Open" id="allowedAttempts"
+          min="1" max="8">
+      </div>
+    </div>
+
+    <div role="alert">
+      <span class="error" ng-show="myForm.allowedExamAttempts.$error.required">
+         Required!</span>
+      <span class="error" ng-show="myForm.allowedExamAttempts.$error.min">
+         Too Little!</span>
+      <span class="error" ng-show="myForm.allowedExamAttempts.$error.max">
+         Too Many!</span>
+    </div>
+
+    <br />
+
+    <div class="row">
+      <label for="eTemplates">Select Exam Template</label>
+      <select class="form-control" id="eTemplates" ng-model="selectedTemplate">
+        <option ng-repeat="exam in examTemplates">{{exam.examId}}</option>
+      </select>
+    </div>
+
+    <br />
+    <div class="row">
+      <label for="editable">Editable Exam:</label>
+      <input id="editable" type="checkbox" name="Editable Test" ng-model="editableTest" ng-value="true" /> {{editableTest}}
+    </div>
+
+    <br />
+
+    <div class="row">
+      <labal for="assignBatch">Input A Batch: </labal>
+      <input id="assignBatch" type="text" name="Assign Batch" ng-model="batchId" />
+    </div>
+
+    <br />
+
+    <br />
+
+    <br/>
+
+    <div role="alert">
+      <span class="error" ng-show="myForm.$invalid">
+         Complete Input Fields!</span>
+    </div>
+
+    <md-button class="md-primary md-raised" ng-show="myForm.$valid" ng-click="submitExamSetting()">Submit</md-button>
+
+    <br/>
+  </form>
+
+  <br />
+
+  {{returnedData}}
+
+</div>
