@@ -1,10 +1,12 @@
 var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate']);
 
+
 (function () {
     'use strict';
 
 app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     $urlRouterProvider.otherwise('/login');
+
     $qProvider.errorOnUnhandledRejections(false);
     
     $stateProvider
@@ -36,6 +38,20 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
         controller: 'loginCtrl',
         controllerAs: 'vm'
     })
+    .state('trainerhistory',{
+        url: '/trainerhistory',
+        views:{
+            '':{
+                templateUrl: 'views/trainerhomepage.html',
+                controller: 'trainerWelcomeCtrl'
+            },
+            'trainerhistoryexam@trainerhistory':{
+                templateUrl: 'views/trainerhistoryexam.html',
+                controller: 'trainerChangeExistingExam'
+            }
+        }
+        
+    })
     .state('trainerwelcome',{
         url: '/trainerwelcome',
         views:{
@@ -48,6 +64,16 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
                 controller: 'trainerWelcomeCtrl'
             }
         }
+    })
+    .state('trainerChangeExistingExam',{
+        url: '/trainerChangeExistingExam',
+        templateUrl: 'views/trainerview_changeexistingexam.html',
+        controller: 'trainerChangeExistingExam'
+    })
+    .state('examQuestionView',{
+        url:'/examQuestionView',
+        templateUrl: 'views/examQuestionView.html',
+        controller: 'examViewController'
     });    
     
 });
@@ -69,5 +95,5 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
             }
         });
     }
-})();
 
+})();

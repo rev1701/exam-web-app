@@ -52,6 +52,39 @@ app.controller('associateExamSettingsCtrl', function ($scope) {
     $scope.numberofquestions = 23;
 });
 
+app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state){
+    var exams;
+    var successFunction = function(ship) {
+        exams = ship.data;
+        $scope.exams = exams;
+        console.log(exams);
+    };
+    var errorFunction = function(err) {
+        $scope.ship = err;
+    };
+    examService.getExams(successFunction,errorFunction);
+    $scope.getExamQuestions = function (e){
+        console.log(e);
+        ExamData.exam = e;
+        $state.go('examQuestionView');
+    };
+});
+
+app.controller('examViewController', function ($scope, examQuestionService, ExamData, $state){
+    var exam = ExamData.exam;
+    var successFunction = function(ship) {
+        exam = ship.data;
+        $scope.exam = exam;
+        console.log(exam);
+    };
+    var errorFunction = function(err) {
+        $scope.ship = err;
+    };
+    examQuestionService.getExamQuestions(exam, successFunction,errorFunction);
+
+
+});
+
 app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService) {
     $scope.lengthofexam = 90;
     $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
@@ -102,9 +135,12 @@ app.controller('collapseCtrl', function ($scope, $location) {
     
 });
 
-app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
+app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService, $state) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
-
+    var createexamClicked = false; // variable that determines if Create New Exam is clicked 
+    var trainerhomepageClicked = false; // determines if trainerhomepage is clicked
+    var trainerhistoryexamClicked = false;
+    var trainerbatchClicked = false;
     var successFunction = function(batch){
         var noa = 0; // noa stands for number of associates in a batch
         
@@ -129,6 +165,9 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
     }
 
     getBatchInfoService.getBatch(successFunction, errorFunction);
+    $scope.routeToExams = function(){
+        $state.go('trainerChangeExistingExam');
+    };
 
     $scope.userName = "Joe Kirkbride";
     $scope.userType = "Trainer";

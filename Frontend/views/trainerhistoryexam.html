@@ -1,0 +1,24 @@
+<div>
+    <div id="weekslabel">
+        <b><u>Exams</u></b>
+    </div>
+    <br> <br>
+    <table>
+        <thead>
+            <tr>      
+                <th>
+                    Exam 
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Only populates the gradebook with associates of a batch-->
+            <tr ng-repeat="e in exams" ng-click="getExamQuestions(e)">
+                <td>
+                   {{e}}
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+</div>
