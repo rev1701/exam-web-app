@@ -1,43 +1,46 @@
-app.controller('loginCtrl', function($scope,  APIService, UserData,$state){
-    $scope.msg = "This is the sign in page!";
-    var users;
-    var successFunction = function(ship) {
-        users = ship.data;
-        console.log(users);
+(function () {
+    'use strict';
+
+    app.controller('loginCtrl', LoginController);
+
+    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
+    function LoginController($location, AuthenticationService, FlashService) {
+
+        // got this code from http://jasonwatmore.com/post/2015/03/10/angularjs-user-registration-and-login-example-tutorial#projectstructure
+        var vm = this;
+
+        vm.login = login;
+
+        (function initController() {
+            // reset login status
+            AuthenticationService.ClearCredentials();
+        })();
+
+        function login() {
+            vm.dataLoading = true;
+            AuthenticationService.Login(vm.email, vm.password, function (response) {
+                if (response.success) {
+                    AuthenticationService.SetCredentials(vm.email, vm.password);
+                    $location.path('/home');
+                    // location.href = "http://localhost:3000/#!/home";
+                } else {
+                    FlashService.Error(response.message);
+                    vm.dataLoading = false;
+                }
+            });
+        };
     }
-    var errorFunction = function(err) {
-        $scope.ship = err;
-    };
-    APIService.getUsers(successFunction,errorFunction);
-
-    $scope.check = function checkUser(Email,Pword) {
-        angular.forEach(users, function (value, index) {
-            if (value.Email == Email && value.Password == Pword) {
-                if(value.UserType == 1){
-                    UserData.userName = value.FirstName + " " + value.LastName;
-                    // $location.path("/home");
-                    $state.go('/');
-
-                }
-                else if(value.UserType == 2){
-
-                }
-                else if(value.UserType == 3){
-
-                }
-                else{
-                  
-                }
-            
-            }
-        })
-    }
-});
-
+// APIService.getUsers(successFunction, errorFunction);
+})();
 
 // associatefirst window controller
-app.controller('associateWelcomeCtrl', function($scope, UserData) {
-    $scope.name = UserData.userName;
+app.controller('associateWelcomeCtrl', function ($scope, UserData) {
+
+    $scope.status = "Doing Great!";
+    $scope.batchName = "1701 .NET";
+    $scope.batchTrainer = "Joe Kirkbride";
+    $scope.userName = UserData.userName;
+    $scope.userType = "Associate";
 });
 
 app.controller('associateExamSettingsCtrl', function ($scope) {
@@ -99,9 +102,35 @@ app.controller('collapseCtrl', function ($scope, $location) {
     
 });
 
-app.controller('trainerWelcomeCtrl', function ($scope) {
+app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService) {
+    var gradebookClicked = false; // variable that determines if Gradebook is clicked 
+
+    var successFunction = function(batch){
+        var noa = 0; // noa stands for number of associates in a batch
+        
+        // only retreives the associates from a batch
+        // could actually put this function in the service, but running low on time of completion
+        for(var i = 0; i < batch.data.Rosters.length; i++){
+            if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
+                noa++;
+            }
+        }
+        $scope.batchName = batch.data.BatchID;
+        // for(var i = 0; i < batch.data.Rosters.length; i++){
+        //     if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
+                $scope.fullname = batch.data.Rosters;
+        //     }
+        // }
+        
+        $scope.numOfAssociates = noa;
+    }
+    var errorFunction = function(err){
+        $scope.batchName = err;
+    }
+
+    getBatchInfoService.getBatch(successFunction, errorFunction);
+
     $scope.userName = "Joe Kirkbride";
-    $scope.batchName = "1701 .NET";
     $scope.userType = "Trainer";
-    $scope.numOfAssociates = 8;
+  
 });
