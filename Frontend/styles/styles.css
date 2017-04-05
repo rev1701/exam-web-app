@@ -3,6 +3,10 @@
     font-size: 30px;
 }
 
+.navtext{
+    color: orange;
+}
+
 .userType{
     text-align: center;
     font-size: 18px;
@@ -29,6 +33,10 @@
 
 #assocaitestanding{
     border-style: solid;
+    border-color: darkorange;
+    border-width: 5px;
+    background-color: lightgray;
+    /*margin-left: 10px;*/
 }
 
 #associatestandinglabel{
@@ -110,4 +118,8 @@ tr:nth-child(even) {
      color: yellow;
      margin-right: 30px;
      margin-top: 15px;
+ }
+
+ #listofexams{
+     text-align: center;
  }
