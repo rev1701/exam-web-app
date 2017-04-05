@@ -5,26 +5,30 @@
             <b>Associate's Standing</b>
         </div>
         <div id="associatestatus">
-            Status: {{status}}
+            Status: <u>{{status}}</u>
         </div>
         <div>
-            [this is where we import the graph that shows the progress of the associate]
+            <!--[this is where we import the graph that shows the progress of the associate]-->
+            <div id="chart_div"></div>
         </div>
         <div id="associatestatus">
-            Associate's Batch: {{batchName}}
+            Associate's Batch: <u>{{batchName}}</u>
         </div>
         <div id="associatestatus">
-            Trainer: {{batchTrainer}}
+            Trainer: <u>{{batchTrainer}}</u>
         </div>
     </div>
 
 
     <div class-"col-md-8" id="assocaitedetails">
         <div class="welcomeuser">
-            <b>Welcome {{name}}!</b>
+
+            <b>Welcome {{user.fname}} {{user.lname}}!</b>
+
         </div>
         <div class="userType">
             {{userType}}
+            <!--{{user.UserType}}-->
         </div>
         <br>
         <br>
@@ -34,3 +38,4 @@
 
     </div>
 </div>
+  

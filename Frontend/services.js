@@ -1,6 +1,6 @@
 app.service("getBatchInfoService", function($http){
-    this.getBatch = function(successCallback, errorCallback){
-        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/batches/getbatch?batchID=WeTheBest")
+    this.getBatch = function(email, successCallback, errorCallback){
+        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/batches/GetBatches?email=" + email)
             .then(function(data){
                 successCallback(data);
             }, function(err){
@@ -168,7 +168,7 @@ app.service("ExamData", function () {
 (function () {
     'use strict';
 
-    app.factory('AuthenticationService', AuthenticationService);
+    app.service('AuthenticationService', AuthenticationService);
 
     AuthenticationService.$inject = ['$http', '$rootScope', '$timeout', 'UserService'];
     function AuthenticationService($http, $rootScope, $timeout, UserService) {
@@ -189,7 +189,7 @@ app.service("ExamData", function () {
                 UserService.GetByEmail(email)
                     .then(function (user) {
                         if (user !== null && user.Password === password) {
-                            response = { success: true };
+                            response = { success: true, userType: user.UserType };
                         } else {
                             response = { success: false, message: 'Email or password is incorrect. Please try again.' };
                         }
@@ -379,7 +379,7 @@ app.service("ExamData", function () {
         service.GetAll = GetAll;
         // service.GetById = GetById;
         service.GetByEmail = GetByEmail;
-        // service.Create = Create;
+        service.GetByEmail2 = GetByEmail2;
         // service.Update = Update;
         // service.Delete = Delete;
 
@@ -390,18 +390,16 @@ app.service("ExamData", function () {
             // return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
         }
 
-        // function GetById(id) {
-        //     return $http.get('/api/users/' + id).then(handleSuccess, handleError('Error getting user by id'));
-        // }
-
+        // gets user by email from the Login API
         function GetByEmail(email) {
             // var domain = $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login");
             return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/users/getuser?email="+email).then(handleSuccess, handleError('Error getting user by username'));
         }
 
-        // function Create(user) {
-        //     return $http.post('/api/users', user).then(handleSuccess, handleError('Error creating user'));
-        // }
+        // // gets user by email from the User Buffet API
+        function GetByEmail2(email) {
+            return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/users/GetUser?email=" + email).then(handleSuccess, handleError('Error creating user'));
+        }
 
         // function Update(user) {
         //     return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));

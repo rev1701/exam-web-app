@@ -21,8 +21,12 @@
             AuthenticationService.Login(vm.email, vm.password, function (response) {
                 if (response.success) {
                     AuthenticationService.SetCredentials(vm.email, vm.password);
-                    $location.path('/home');
-                    // location.href = "http://localhost:3000/#!/home";
+                    if (response.userType == 1) {
+                        $location.path('/associateHome');
+                    }
+                    if (response.userType == 3) {
+                        $location.path('/trainerwelcome');
+                    }
                 } else {
                     FlashService.Error(response.message);
                     vm.dataLoading = false;
@@ -30,18 +34,79 @@
             });
         };
     }
-// APIService.getUsers(successFunction, errorFunction);
+    // APIService.getUsers(successFunction, errorFunction);
 })();
 
 // associatefirst window controller
-app.controller('associateWelcomeCtrl', function ($scope, UserData) {
+(function () {
+    'use strict';
+    app.controller('associateWelcomeCtrl', HomeController)
+})();
 
-    $scope.status = "Doing Great!";
-    $scope.batchName = "1701 .NET";
-    $scope.batchTrainer = "Joe Kirkbride";
-    $scope.userName = UserData.userName;
-    $scope.userType = "Associate";
-});
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
+    $scope.user;
+    $scope.userType;
+    $scope.userEmail;
+    $scope.status;
+    $scope.batchName;
+    $scope.batchTrainer;
+
+    initController();
+
+    function initController() {
+        loadCurrentUser();
+    }
+
+    function loadCurrentUser() {
+        // doesn't work: if user isn't signed in, will reroute automatically to login screen
+        if ($rootScope.globals.currentUser == undefined) {
+            $location.path('/login');
+        }
+        UserService.GetByEmail2($rootScope.globals.currentUser.email)
+            .then(function (user) {
+                $scope.user = user;
+                $scope.userType = user.UserType1.Role;
+                $scope.userEmail = user.email;
+            });
+    }
+    var successFunction = function (batch) {      
+        var noa = 0; // noa stands for number of associates in a batch
+
+        // only retreives the associates from a batch
+        // could actually put this function in the service, but running low on time of completion
+        for (var i = 0; i < batch.data[0].Rosters.length; i++) {
+            if (batch.data[0].Rosters[i].User.UserType1.Role == "Associate") {
+                noa++;
+            }
+        }
+
+        // returns the correct trainer of a particular batch
+        for(var i = 0; i < batch.data[0].Rosters.length; i++){
+            if(batch.data[0].Rosters[i].User.UserType1.Role == "Trainer"){
+                $scope.batchTrainer = batch.data[0].Rosters[i].User.fname + " " + batch.data[0].Rosters[i].User.lname;
+            }
+        }
+
+        for(var i = 0; i < batch.data[0].Rosters.length; i++){
+            if(batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email){
+                $scope.status = batch.data[0].Rosters[i].StatusType.Description;
+            }
+        }
+
+
+        $scope.batchName = batch.data[0].BatchID; // returns the batches name
+        $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
+        $scope.numOfAssociates = noa; // return the number of associates in a batch
+    }
+    var errorFunction = function (err) {
+        $scope.batchName = err;
+    }
+
+    // getBatchInfoService.getBatch(successFunction, errorFunction);
+    getBatchInfoService.getBatch($rootScope.globals.currentUser.email, successFunction, errorFunction);
+
+}
 
 app.controller('associateExamSettingsCtrl', function ($scope) {
     $scope.examname = "Test 1: C# and .NET Framework";
@@ -125,7 +190,6 @@ app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, ti
         $scope.testStarted = true;
         timerService.StartTimer($rootScope.timer);
         timerService.GetCurrentTime();
-        // console.log(timerService.GetCurrentTime());
     };
     // listen to timer event, emitted by timer service
     $rootScope.$on('timer', function (event, data) {
@@ -139,7 +203,7 @@ app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, ti
         });
     });
     if (timerService.hasStarted === false) {
-        this.StartTimer(); 
+        this.StartTimer();
     }
 
 }); //controller
@@ -149,41 +213,36 @@ app.controller('collapseCtrl', function ($scope, $location) {
     $scope.isCollapsed = false;
     $scope.isCollapsedHorizontal = false;
 
-    $scope.inExam = function(){
-        if(location.href == "http://localhost:3000/#!/examinprogress"){
+    $scope.inExam = function () {
+        if (location.href == "http://localhost:3000/#!/examinprogress") {
             return true;
         }
-        else{
+        else {
             return false;
         }
     }
-    
+
 });
 
 app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService, $state) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
-    var successFunction = function(batch){
+    var successFunction = function (batch) {
         var noa = 0; // noa stands for number of associates in a batch
-        
+
         // only retreives the associates from a batch
         // could actually put this function in the service, but running low on time of completion
-        for(var i = 0; i < batch.data.Rosters.length; i++){
-            if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
+        for (var i = 0; i < batch.data.Rosters.length; i++) {
+            if (batch.data.Rosters[i].User.UserType1.Role == "Associate") {
                 noa++;
             }
         }
         $scope.batchName = batch.data.BatchID;
-        // for(var i = 0; i < batch.data.Rosters.length; i++){
-        //     if(batch.data.Rosters[i].User.UserType1.Role == "Associate"){
-                $scope.fullname = batch.data.Rosters;
-        //     }
-        // }
-        
+        $scope.fullname = batch.data.Rosters;
         $scope.numOfAssociates = noa;
     }
-    var errorFunction = function(err){
+    var errorFunction = function (err) {
         $scope.batchName = err;
     }
 
@@ -192,7 +251,6 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService, $sta
         $state.go('trainerChangeExistingExam');
     };
 
-    $scope.userName = "Joe Kirkbride";
     $scope.userType = "Trainer";
-  
+
 });
