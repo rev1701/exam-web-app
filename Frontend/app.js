@@ -11,8 +11,7 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     .state('/',{
         url: '/associateHome',
             templateUrl: 'views/associateview_intro.html',
-            controller: 'associateWelcomeCtrl'
-            // controllerAs: 'vm'        
+            controller: 'associateWelcomeCtrl'     
     })
     .state('examsettings',{
         url: '/examsettings',
@@ -42,13 +41,11 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
         views:{
             '': {
                 templateUrl: 'views/trainerview_welcome.html',
-                controller: 'trainerWelcomeCtrl',
-                controllerAs: 'vm'
+                controller: 'trainerWelcomeCtrl'
             },
             'gradebook@trainerwelcome':{
                 templateUrl: 'views/gradebook.html',
-                controller: 'trainerWelcomeCtrl',
-                controllerAs: 'vm'
+                controller: 'trainerWelcomeCtrl'
             }
         }
     });    
