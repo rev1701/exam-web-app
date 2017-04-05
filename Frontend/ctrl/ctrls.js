@@ -43,26 +43,30 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', 'getBatchInfoService2', '$rootScope', '$scope'];
+function HomeController(UserService, getBatchInfoService, getBatchInfoService2, $rootScope, $scope) {
     $scope.user;
     $scope.userType;
-    $scope.status = "Doing Great!";
-    $scope.batchName = "1701 .NET"; // here
+    $scope.userEmail;
+    $scope.status = "Doing Great!"; // here
+    $scope.batchName;
     $scope.batchTrainer = "Joe Kirkbride";
 
     initController();
 
     function initController() {
         loadCurrentUser();
-        
     }
 
     function loadCurrentUser() {
+        if ($rootScope.globals.currentUser == undefined) {
+            $location.path('/login');
+        }
         UserService.GetByEmail2($rootScope.globals.currentUser.email)
             .then(function (user) {
                 $scope.user = user;
                 $scope.userType = user.UserType1.Role;
+                $scope.userEmail = user.email;
             });
     }
 
@@ -84,7 +88,29 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
         $scope.batchName = err;
     }
 
-    getBatchInfoService.getBatch(successFunction, errorFunction);
+    var successFunction2 = function (batch) {
+        console.log("hello");
+        
+        var noa = 0; // noa stands for number of associates in a batch
+
+        // only retreives the associates from a batch
+        // could actually put this function in the service, but running low on time of completion
+        for (var i = 0; i < batch.data[0].Rosters.length; i++) {
+            if (batch.data[0].Rosters[i].User.UserType1.Role == "Associate") {
+                noa++;
+            }
+        }
+        $scope.batchName = batch.data[0].BatchID;
+        $scope.fullname = batch.data[0].Rosters;
+        $scope.numOfAssociates = noa;
+        console.log("goodbye");
+    }
+    var errorFunction2 = function (err) {
+        $scope.batchName = err;
+    }
+
+    // getBatchInfoService.getBatch(successFunction, errorFunction);
+    getBatchInfoService2.getBatch($rootScope.globals.currentUser.email, successFunction2, errorFunction2);
 
 }
 
