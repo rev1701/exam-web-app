@@ -3,6 +3,10 @@
     font-size: 30px;
 }
 
+.navtext{
+    color: orange;
+}
+
 .userType{
     text-align: center;
     font-size: 18px;
@@ -29,6 +33,9 @@
 
 #assocaitestanding{
     border-style: solid;
+    border-color: darkorange;
+    border-width: 5px;
+    /*margin-left: 10px;*/
 }
 
 #associatestandinglabel{
