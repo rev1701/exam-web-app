@@ -46,24 +46,35 @@
 HomeController.$inject = ['UserService', '$rootScope', '$scope'];
 function HomeController(UserService, $rootScope, $scope) {
     $scope.user;
+    $scope.userType;
     $scope.status = "Doing Great!";
     $scope.batchName = "1701 .NET";
     $scope.batchTrainer = "Joe Kirkbride";
-    // $scope.userName = vm.user.FirstName;
-    $scope.userType = "Associate";
 
     initController();
 
     function initController() {
         loadCurrentUser();
+        // getUsersType($scope.userType);
     }
 
     function loadCurrentUser() {
-        UserService.GetByEmail($rootScope.globals.currentUser.email)
+        UserService.GetByEmail2($rootScope.globals.currentUser.email)
             .then(function (user) {
                 $scope.user = user;
+                $scope.userType = user.UserType1.Role;
             });
     }
+
+    function getUsersType(type){
+        if(type == 1){
+            $scope.userType = "Associate";
+        }
+        else if(type == 3){
+            $scope.userType = "Trainer";
+        }
+    } // getUsersType
+
 }
 
 app.controller('associateExamSettingsCtrl', function ($scope) {
@@ -90,7 +101,6 @@ app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, ti
         $scope.testStarted = true;
         timerService.StartTimer($rootScope.timer);
         timerService.GetCurrentTime();
-        // console.log(timerService.GetCurrentTime());
     };
     // listen to timer event, emitted by timer service
     $rootScope.$on('timer', function (event, data) {
