@@ -1,0 +1,41 @@
+<div>
+    <div class="col-md-4" id="assocaitestanding">
+        
+        <div id="associatestandinglabel">
+            <b>Batch Info</b>
+        </div>
+        <div id="associatestatus">
+            Current Batch: {{batchName}}
+        </div>
+        <div class="numofassociates">
+            # of Associates: {{numOfAssociates}}
+        </div>
+        <div class="gradebookbutton">
+            <a href="" id="gradebooklink" ng-click="gradebookClicked = !gradebookClicked">Gradebook</a>
+        </div>
+        <div class="detailsandsyllabusblock">
+            <a href="">Details and Syllabus</a>
+        </div>
+        <div class="addtesttobatchblock">
+            <a href="">Add Test to Batch</a>
+        </div>
+        <br><br>
+        <!--<input type="checkbox" ng-model="blah">-->
+        <br>     
+        <br><br><br><br>
+        
+    </div>
+
+
+    <div class-"col-md-8" id="assocaitedetails">
+        <div class="welcomeuser">
+            <b>Welcome {{user.fname}} {{user.lname}}!</b>
+        </div>
+        <div class="userType">
+            {{userType}}
+        </div>
+        <br>
+        <br>
+        <div ui-view="gradebook" ng-show="gradebookClicked"></div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div>
+    <div id="weekslabel">
+        <b><u>Gradebook</u></b>
+    </div>
+    <br> <br>
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Exam {{index}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--Only populates the gradebook with associates of a batch-->
+            <tr ng-repeat="items in fullname" ng-if="items.User.UserType1.Role == 'Associate'">
+                <td>
+                   {{items.UserID}}
+                </td>
+                <td>
+                     {{items.User.fname}} {{items.User.lname}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

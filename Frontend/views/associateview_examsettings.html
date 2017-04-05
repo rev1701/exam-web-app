@@ -1,0 +1,34 @@
+<div>
+    
+    <div class="examsettingstitle">
+        <b><u>Exam Settings</u></b>
+    </div>
+    <br>
+    <div class="examname">
+        <b>{{examname}}</b>
+    </div>
+    <br>
+    <div class="col-md-4"></div>
+
+    <div class="col-md-8" id="examinformation">
+        <div class = "col-md-1"></div>
+            <div class= "col-md-6">
+                Start Day: <u>{{startdate}}</u>
+                <br>
+                Start Time: <u>{{starttime}}</u>
+                <br>
+                End Time: <u>{{endtime}}</u>
+                <br>
+                Length of Test: <u>{{lengthofexam}} minutes</u>
+                <br>
+                # of Questions: <u>{{numberofquestions}}</u>
+                <br><br>
+            </div>
+    </div>
+
+    <div id="startButtons">
+        <a href="#!/examinprogress"><button type="button" class='btn btn-success'>Start Test</button></a>
+        <a href="#!/home"><button type="button" class='btn btn-danger'>Go Back</button></a>
+    </div>
+
+</div>
