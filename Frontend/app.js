@@ -1,10 +1,12 @@
 var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate']);
 
+
 (function () {
     'use strict';
 
 app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
     $urlRouterProvider.otherwise('/login');
+
     $qProvider.errorOnUnhandledRejections(false);
     
     $stateProvider
