@@ -1,15 +1,4 @@
 app.service("getBatchInfoService", function($http){
-    this.getBatch = function(successCallback, errorCallback){
-        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/batches/getbatch?batchID=WeTheBest")
-            .then(function(data){
-                successCallback(data);
-            }, function(err){
-                errorCallback(err);
-            });
-    }
-});
-
-app.service("getBatchInfoService2", function($http){
     this.getBatch = function(email, successCallback, errorCallback){
         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/batches/GetBatches?email=" + email)
             .then(function(data){

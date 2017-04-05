@@ -43,14 +43,14 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', 'getBatchInfoService2', '$rootScope', '$scope'];
-function HomeController(UserService, getBatchInfoService, getBatchInfoService2, $rootScope, $scope) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
     $scope.status = "Doing Great!"; // here
     $scope.batchName;
-    $scope.batchTrainer = "Joe Kirkbride";
+    $scope.batchTrainer;
 
     initController();
 
@@ -69,28 +69,7 @@ function HomeController(UserService, getBatchInfoService, getBatchInfoService2, 
                 $scope.userEmail = user.email;
             });
     }
-
-    var successFunction = function (batch) {
-        var noa = 0; // noa stands for number of associates in a batch
-
-        // only retreives the associates from a batch
-        // could actually put this function in the service, but running low on time of completion
-        for (var i = 0; i < batch.data.Rosters.length; i++) {
-            if (batch.data.Rosters[i].User.UserType1.Role == "Associate") {
-                noa++;
-            }
-        }
-        $scope.batchName = batch.data.BatchID;
-        $scope.fullname = batch.data.Rosters;
-        $scope.numOfAssociates = noa;
-    }
-    var errorFunction = function (err) {
-        $scope.batchName = err;
-    }
-
-    var successFunction2 = function (batch) {
-        console.log("hello");
-        
+    var successFunction = function (batch) {      
         var noa = 0; // noa stands for number of associates in a batch
 
         // only retreives the associates from a batch
@@ -100,17 +79,24 @@ function HomeController(UserService, getBatchInfoService, getBatchInfoService2, 
                 noa++;
             }
         }
-        $scope.batchName = batch.data[0].BatchID;
-        $scope.fullname = batch.data[0].Rosters;
-        $scope.numOfAssociates = noa;
-        console.log("goodbye");
+
+        // 
+        for(var i = 0; i < batch.data[0].Rosters.length; i++){
+            if(batch.data[0].Rosters[i].User.UserType1.Role == "Trainer"){
+                $scope.batchTrainer = batch.data[0].Rosters[i].User.fname + " " + batch.data[0].Rosters[i].User.lname;
+            }
+        }
+
+        $scope.batchName = batch.data[0].BatchID; // returns the batches name
+        $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
+        $scope.numOfAssociates = noa; // return the number of associates in a batch
     }
-    var errorFunction2 = function (err) {
+    var errorFunction = function (err) {
         $scope.batchName = err;
     }
 
     // getBatchInfoService.getBatch(successFunction, errorFunction);
-    getBatchInfoService2.getBatch($rootScope.globals.currentUser.email, successFunction2, errorFunction2);
+    getBatchInfoService.getBatch($rootScope.globals.currentUser.email, successFunction, errorFunction);
 
 }
 
