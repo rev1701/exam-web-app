@@ -19,6 +19,9 @@
         <div class="addtesttobatchblock">
             <a href="">Add Test to Batch</a>
         </div>
+        <div class="changeExistingExam">
+            <a href="" ng-click="routeToExams()">Change Existing Exam</a>
+        </div>
         <br><br>
         <!--<input type="checkbox" ng-model="blah">-->
         <br>     
@@ -37,5 +40,6 @@
         <br>
         <br>
         <div ui-view="gradebook" ng-show="gradebookClicked"></div>
+        <div ui-view="trainerChangeExistingExam"></div>
     </div>
 </div>

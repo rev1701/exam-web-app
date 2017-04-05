@@ -9,6 +9,28 @@ app.service("getBatchInfoService", function($http){
     }
 });
 
+app.service("examService", function ($http) {
+    this.getExams = function (successCallback,errorCallback) {
+         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/GetIdList")
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+});
+
+app.service("examQuestionService", function ($http) {
+    this.getExamQuestions = function (examid, successCallback,errorCallback) {
+         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/?extid="+examid)
+        .then(function(data){
+            successCallback(data);
+        }, function(err){
+            errorCallback(err);
+        });
+    };
+});
+
 
 // service for timer
 // features:
@@ -114,6 +136,11 @@ app.service("UserData", function () {
         userType: ''
     };
     return User;
+});
+
+app.service("ExamData", function () {
+    var exam = {};
+    return exam;
 });
 
 

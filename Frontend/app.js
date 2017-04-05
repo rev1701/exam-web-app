@@ -48,6 +48,16 @@ app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
                 controller: 'trainerWelcomeCtrl'
             }
         }
+    })
+    .state('trainerChangeExistingExam',{
+        url: '/trainerChangeExistingExam',
+        templateUrl: 'views/trainerview_changeexistingexam.html',
+        controller: 'trainerChangeExistingExam'
+    })
+    .state('examQuestionView',{
+        url:'/examQuestionView',
+        templateUrl: 'views/examQuestionView.html',
+        controller: 'examViewController'
     });    
     
 });
