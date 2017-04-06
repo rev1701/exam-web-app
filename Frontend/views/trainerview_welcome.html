@@ -22,21 +22,17 @@
         <div class="changeExistingExam">
             <a href="" ng-click="routeToExams()">Change Existing Exam</a>
         </div>
-        <div class="trainerhistory">
-            <a href="#!/trainerhistory" ng-click="trainerhomepageClicked = !trainerhomepageClicked">Trainer History</a>
-            
-        </div>
         <br><br>
         <!--<input type="checkbox" ng-model="blah">-->
         <br>     
         <br><br><br><br>
-        
+
     </div>
 
 
-    <div class-"col-md-8" id="assocaitedetails">
+    <div class="col-md-8" id="assocaitedetails">
         <div class="welcomeuser">
-            <b>Welcome {{userName}}!</b>
+            <b>Welcome {{user.fname}} {{user.lname}}!</b>
         </div>
         <div class="userType">
             {{userType}}

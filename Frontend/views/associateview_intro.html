@@ -5,32 +5,53 @@
             <b>Associate's Standing</b>
         </div>
         <div id="associatestatus">
-            Status: {{status}}
+            Status: <u>{{status}}</u>
         </div>
         <div>
-            [this is where we import the graph that shows the progress of the associate]
+            <!--[this is where we import the graph that shows the progress of the associate]-->
+            <div id="chart_div"></div>
         </div>
         <div id="associatestatus">
-            Associate's Batch: {{batchName}}
+            Associate's Batch: <u>{{batchName}}</u>
         </div>
         <div id="associatestatus">
-            Trainer: {{batchTrainer}}
+            Trainer: <u>{{batchTrainer}}</u>
         </div>
     </div>
 
 
     <div class-"col-md-8" id="assocaitedetails">
         <div class="welcomeuser">
-            <b>Welcome {{name}}!</b>
+
+            <b>Welcome {{user.fname}} {{user.lname}}!</b>
+
         </div>
         <div class="userType">
             {{userType}}
+            <!--{{user.UserType}}-->
         </div>
         <br>
         <br>
         <div id="associatestandinglabel">
-            <b><u>Weeks</u></b>
+            <div text-align: center  data-toggle="collapse" data-target="#demo">Exams</div>
+  <div text-align: center id="demo" class="collapse">
+    <a href=''>Bootcamp_1</a>
+  </div>
+  <div text-align: center  data-toggle="collapse" data-target="#demo1">Exams</div>
+  <div  id="demo1" class="collapse">
+    <a href=''>Bootcamp_2</a>
+  </div>
+  <div   data-toggle="collapse" data-target="#demo2">Exams</div>
+  <div  id="demo2" class="collapse">
+    <a href=''>Other_1</a>
+  </div>
+  <div   data-toggle="collapse" data-target="#demo3">Exams</div>
+  <div  id="demo3" class="collapse">
+    <a href='#!/examsettings'>Training_1</a>
+  </div>
+</div>
         </div>
 
     </div>
 </div>
+  
