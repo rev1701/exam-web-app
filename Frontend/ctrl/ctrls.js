@@ -186,9 +186,12 @@ app.controller('trainerChangeExistingExam', function ($scope, examService, ExamD
     };
 });
 
-app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService) {
-    $scope.lengthofexam = 90;
-    $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
+app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService, ExamData) {
+    $scope.BatchExams = ExamData.getBatchExamSettings();
+    $scope.examTemplate = ExamData.getExamTemplateData();
+
+    $scope.lengthofexam = $scope.BatchExams[0].LengthOfExamInMinutes;
+    $scope.questions = $scope.examTemplate.ExamQuestions;
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
     $scope.isEditable = false;
     $scope.testStarted = false;
@@ -265,15 +268,16 @@ app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchI
 
 app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings, ExamData, ExamTemplateService) {
     $scope.BatchExams = ExamData.getBatchExamSettings();
+    $scope.returnedData = ExamData.getExamTemplateData();
+
 
     $scope.examname = "Test: ";
-    $scope.startdate = 0;//BatchExams[0].StartTime.getDate();//"Monday, April 3, 2017";
+    $scope.startdate = $scope.BatchExams[0];//$scope.BatchExams[0].StartTime.getDate();//"Monday, April 3, 2017";
     $scope.starttime = 0;//BatchExams[0].StartTime.getHours() + ":" + BatchExams[0].StartTime.getMinutes();
     $scope.endtime = 0;//BatchExams[0].EndTime.getHours() + ":" + BatchExams[0].EndTime.getMinutes();
     $scope.lengthofexam = 0;//BatchExams[0].LengthOfExamInMinutes;
     //$scope.numberofquestions = 23;
 
-    $scope.returnedData = ExamData.getExamTemplateData();
 
     $scope.myDate = new Date();
 
