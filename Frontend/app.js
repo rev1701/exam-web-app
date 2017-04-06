@@ -1,4 +1,4 @@
-var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate']);
+var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngMaterial', 'ngMessages']);
 
 (function () {
     'use strict';
@@ -16,6 +16,11 @@ var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.boo
             .state('examsettings', {
                 url: '/examsettings',
                 templateUrl: 'views/associateview_examsettings.html',
+                controller: "associateExamSettingsCtrl"
+            })
+            .state('settings', {
+                url: '/settings',
+                templateUrl: 'views/settings.html',
                 controller: "associateExamSettingsCtrl"
             })
             .state('examinprogress', {
