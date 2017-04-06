@@ -267,7 +267,7 @@ app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings,
     $scope.BatchExams = ExamData.getBatchExamSettings();
 
     $scope.examname = "Test: ";
-    $scope.startdate = 0;//BatchExams[0].StartTime.getDate();//"Monday, April 3, 2017";
+    $scope.startdate = $scope.BatchExams[0].StartTime.getDate();//"Monday, April 3, 2017";
     $scope.starttime = 0;//BatchExams[0].StartTime.getHours() + ":" + BatchExams[0].StartTime.getMinutes();
     $scope.endtime = 0;//BatchExams[0].EndTime.getHours() + ":" + BatchExams[0].EndTime.getMinutes();
     $scope.lengthofexam = 0;//BatchExams[0].LengthOfExamInMinutes;
