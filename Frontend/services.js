@@ -52,6 +52,11 @@ app.service("examQuestionService", function ($http) {
 
 });
 
+app.service("ExamData", function () {
+    var exam = {};
+    return exam;
+});
+
 
 // service for timer
 // features:
@@ -157,11 +162,6 @@ app.service("UserData", function () {
         userType: ''
     };
     return User;
-});
-
-app.service("ExamData", function () {
-    var exam = {};
-    return exam;
 });
 
 

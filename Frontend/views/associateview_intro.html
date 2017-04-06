@@ -1,4 +1,4 @@
-<div data-ng-app="USL1701.Frontend">
+<div class="associateviewintro">
     <div class="col-md-4" id="assocaitestanding">
         
         <div id="associatestandinglabel">
@@ -20,11 +20,9 @@
     </div>
 
 
-    <div class-"col-md-8" id="assocaitedetails">
+    <div class="col-md-8" id="assocaitedetails">
         <div class="welcomeuser">
-
             <b>Welcome {{user.fname}} {{user.lname}}!</b>
-
         </div>
         <div class="userType">
             {{userType}}
@@ -33,23 +31,28 @@
         <br>
         <br>
         <div id="associatestandinglabel">
-            <div text-align: center  data-toggle="collapse" data-target="#demo">Exams</div>
-  <div text-align: center id="demo" class="collapse">
-    <a href=''>Bootcamp_1</a>
-  </div>
-  <div text-align: center  data-toggle="collapse" data-target="#demo1">Exams</div>
-  <div  id="demo1" class="collapse">
-    <a href=''>Bootcamp_2</a>
-  </div>
-  <div   data-toggle="collapse" data-target="#demo2">Exams</div>
-  <div  id="demo2" class="collapse">
-    <a href=''>Other_1</a>
-  </div>
-  <div   data-toggle="collapse" data-target="#demo3">Exams</div>
+            <b><u>Exams:</u></b>        
+        <div   data-toggle="collapse" data-target="#demo3">Training_1</div>
   <div  id="demo3" class="collapse">
-    <a href='#!/examsettings'>Training_1</a>
+    <a type="button" class="btn btn-info" href='#!/examsettings'>Take Exam</a>
   </div>
-</div>
+  <div text-align: center  data-toggle="collapse" data-target="#demo">Bootcamp_1</div>
+  <div text-align: center id="demo" class="collapse">
+    <button type="button" class="btn btn-info" href=''>Review Exam</button>
+  </div>
+  <div text-align: center  data-toggle="collapse" data-target="#demo1">Bootcamp_2</div>
+  <div  id="demo1" class="collapse">
+    <button type="button" class="btn btn-info" href=''>Review Exam</button>
+  </div>
+  <div   data-toggle="collapse" data-target="#demo2">Other_1</div>
+  <div  id="demo2" class="collapse">
+      <button type="button" class="btn btn-info" href=''>Review Exam</button>    
+  </div>
+  
+        </div>
+        <br>
+        <div id="listofexams" ng-repeat="items in exams">
+            {{items}}
         </div>
 
     </div>

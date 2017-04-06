@@ -43,14 +43,15 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location, $state) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
     $scope.status;
     $scope.batchName;
     $scope.batchTrainer;
+    $scope.exams;
 
     initController();
 
@@ -88,16 +89,24 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
             }
         }
 
+
         for(var i = 0; i < batch.data[0].Rosters.length; i++){
             if(batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email){
                 $scope.status = batch.data[0].Rosters[i].StatusType.Description;
             }
         }
 
+        for(var i = 0; i < batch.data[0].ExamSettings.length; i++){
+            $scope.exams = batch.data[0].ExamSettings[i].ExamTemplateID;
+        }
 
         $scope.batchName = batch.data[0].BatchID; // returns the batches name
         $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
         $scope.numOfAssociates = noa; // return the number of associates in a batch
+
+        $scope.routeToExams = function () {
+            $state.go('trainerChangeExistingExam');
+        };
     }
     var errorFunction = function (err) {
         $scope.batchName = err;
@@ -108,32 +117,6 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
 
 }
 
-app.controller('associateExamSettingsCtrl', function ($scope) {
-    $scope.examname = "Test 1: C# and .NET Framework";
-    $scope.startdate = "Monday, April 3, 2017";
-    $scope.starttime = "10:00 am";
-    $scope.endtime = "12:00 pm";
-    $scope.lengthofexam = 90;
-    $scope.numberofquestions = 23;
-});
-
-app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state){
-    var exams;
-    var successFunction = function(ship) {
-        exams = ship.data;
-        $scope.exams = exams;
-        console.log(exams);
-    };
-    var errorFunction = function(err) {
-        $scope.ship = err;
-    };
-    examService.getExams(successFunction,errorFunction);
-    $scope.getExamQuestions = function (e){
-        console.log(e);
-        ExamData.exam = e;
-        $state.go('examQuestionView');
-    };
-});
 
 app.controller('examViewController', function ($scope, examQuestionService, ExamData, $state){
     var exam = ExamData.exam;
@@ -173,6 +156,34 @@ app.controller('examViewController', function ($scope, examQuestionService, Exam
         examQuestionService.addQ(exam.ExamTemplateID, question.ExamQuestionID, successFunction,errorFunction);
     }
 
+});
+
+
+app.controller('associateExamSettingsCtrl', function ($scope) {
+    $scope.examname = "Test 1: C# and .NET Framework";
+    $scope.startdate = "Monday, April 3, 2017";
+    $scope.starttime = "10:00 am";
+    $scope.endtime = "12:00 pm";
+    $scope.lengthofexam = 90;
+    $scope.numberofquestions = 23;
+});
+
+app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state){
+    var exams;
+    var successFunction = function(ship) {
+        exams = ship.data;
+        $scope.exams = exams;
+        console.log(exams);
+    };
+    var errorFunction = function(err) {
+        $scope.ship = err;
+    };
+    examService.getExams(successFunction,errorFunction);
+    $scope.getExamQuestions = function (e){
+        console.log(e);
+        ExamData.exam = e;
+        $state.go('examQuestionView');
+    };
 });
 
 app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService) {
@@ -224,7 +235,7 @@ app.controller('collapseCtrl', function ($scope, $location) {
 
 });
 
-app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService, $state) {
+app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchInfoService) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
@@ -247,10 +258,119 @@ app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService, $sta
     }
 
     getBatchInfoService.getBatch(successFunction, errorFunction);
-    $scope.routeToExams = function(){
-        $state.go('trainerChangeExistingExam');
-    };
 
     $scope.userType = "Trainer";
+
+});
+
+app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings) {
+    $scope.examname = "Test 1: C# and .NET Framework";
+    $scope.startdate = "Monday, April 3, 2017";
+    $scope.starttime = "10:00 am";
+    $scope.endtime = "12:00 pm";
+    $scope.lengthofexam = 90;
+    $scope.numberofquestions = 23;
+    
+    $scope.myDate = new Date();
+
+    $scope.examSettings =
+        {
+            ExamSettingsID: 0,
+            StartTime: new Date(),
+            LengthOfExamInMinutes: 0,
+            EndTime: new Date(),
+            AllowedAttempts: 0,
+            ExamTemplateID: "something_1",
+            Editable: false,
+
+        }
+
+    $scope.minDate = new Date(
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth(),
+        $scope.myDate.getDate()
+    );
+
+    $scope.maxDate = new Date(
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth() + 6,
+        $scope.myDate.getDate()
+    );
+
+    $scope.startTime2;
+
+    $scope.isOpen = false;
+
+    $scope.finalDate = new Date();
+
+    $scope.timeLimitInMinutes = 60;
+
+    $scope.timeOpenInHours = 2;
+
+    $scope.examTemplates = [
+        { examId: "Training_2" },
+        { examId: "Training_1" },
+        { examId: "Training_3" }
+    ];
+
+    $scope.selectedTemplate = "none"
+
+    $scope.editableTest = false;
+
+    $scope.allowedAttempts = 0;
+
+    $scope.endTime2 = 0;
+
+    $scope.batchId = "WeTheBest";
+
+    $scope.submitExamSetting = function () {
+        //do stuff in here when submit
+
+        $scope.endTime = parseInt($scope.startTime) + parseInt($scope.timeOpenInHours);
+        $scope.examSettings.StartTime = new Date(
+            $scope.myDate.getFullYear(),
+            $scope.myDate.getMonth(),
+            $scope.myDate.getDate()
+        );
+
+        $scope.examSettings.EndTime = new Date(
+            $scope.myDate.getFullYear(),
+            $scope.myDate.getMonth(),
+            $scope.myDate.getDate()
+        );
+
+        $scope.examSettings.StartTime.setHours(parseInt($scope.startTime) - 4);
+        $scope.examSettings.EndTime.setHours($scope.endTime - 4);
+
+        $scope.examSettings.LengthOfExamInMinutes = $scope.timeLimitInMinutes;
+
+        $scope.examSettings.AllowedAttempts = $scope.allowedAttempts;
+        $scope.examSettings.ExamTemplateID = $scope.selectedTemplate;
+        $scope.examSettings.Editable = $scope.editableTest;
+
+        storeExamSettings.saveSettings($scope.examSettings, saveExamSuccessFunction, errorFunction);
+    };
+
+    $scope.returnedData;
+
+    var saveExamSuccessFunction = function (data) {
+        storeExamSettings.assignToBatch(
+            {
+                sID: data.data.ExamSettingsID,
+                bID: $scope.batchId
+            },
+            assignToBatchSuccess,
+            errorFunction);
+    }
+    var assignToBatchSuccess = function (data) {
+        $scope.returnedData = data.data;
+    }
+    var assignToUserSuccess = function (data) {
+        $scope.returnedData = data.data;
+    }
+    var errorFunction = function (err) {
+        $scope.returnedData = err;
+    };
+
 
 });
