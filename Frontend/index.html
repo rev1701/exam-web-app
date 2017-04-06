@@ -6,8 +6,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.css" rel='stylesheet'>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
         <link href="styles/styles.css" rel='stylesheet'>
+        <link href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css" rel="stylesheet">
     </head>
 
     <body ng-app="USL1701.Frontend">
@@ -25,6 +25,7 @@
             <ul class="nav navbar-nav">
               <li><a ui-sref="/">Associate Welcome</a></li>
               <li><a ui-sref="examsettings">Exam Settings</a></li>
+              <li><a ui-sref="settings">Create Settings</a></li>
               <li><a ui-sref="trainerwelcome">Trainer Welcome</a></li>
             </ul>
 
@@ -55,12 +56,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-route.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-aria.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-messages.js"></script>    
+    <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
     <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
     <script src="app.js"></script>
     <script src="otherjs.js"></script>
     <script src="timerWorker.js"></script>
     <script src="services.js"></script>
+    <script src="factory.js"></script>
     <script src="ctrl/ctrls.js"></script>
     
   </body>
