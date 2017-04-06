@@ -43,8 +43,8 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location, $state) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state', 'ExamData', 'ExamTemplateService'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location, $state, ExamData, ExamTemplateService) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
@@ -52,6 +52,8 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
     $scope.batchName;
     $scope.batchTrainer;
     $scope.exams;
+
+    $scope.aBatch;
 
     initController();
 
@@ -71,7 +73,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
                 $scope.userEmail = user.email;
             });
     }
-    var successFunction = function (batch) {      
+    var successFunction = function (batch) {
         var noa = 0; // noa stands for number of associates in a batch
 
         // only retreives the associates from a batch
@@ -83,20 +85,20 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
         }
 
         // returns the correct trainer of a particular batch
-        for(var i = 0; i < batch.data[0].Rosters.length; i++){
-            if(batch.data[0].Rosters[i].User.UserType1.Role == "Trainer"){
+        for (var i = 0; i < batch.data[0].Rosters.length; i++) {
+            if (batch.data[0].Rosters[i].User.UserType1.Role == "Trainer") {
                 $scope.batchTrainer = batch.data[0].Rosters[i].User.fname + " " + batch.data[0].Rosters[i].User.lname;
             }
         }
 
 
-        for(var i = 0; i < batch.data[0].Rosters.length; i++){
-            if(batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email){
+        for (var i = 0; i < batch.data[0].Rosters.length; i++) {
+            if (batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email) {
                 $scope.status = batch.data[0].Rosters[i].StatusType.Description;
             }
         }
 
-        for(var i = 0; i < batch.data[0].ExamSettings.length; i++){
+        for (var i = 0; i < batch.data[0].ExamSettings.length; i++) {
             $scope.exams = batch.data[0].ExamSettings[i].ExamTemplateID;
         }
 
@@ -107,9 +109,17 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
         $scope.routeToExams = function () {
             $state.go('trainerChangeExistingExam');
         };
+
+        ExamData.setBatchExamSettings(batch.data[0].ExamSettings);
+
+        ExamTemplateService.getExamTemplate(batch.data[0].ExamSettings[0].ExamTemplateID, examTemplateSucess, errorFunction);
+
     }
     var errorFunction = function (err) {
         $scope.batchName = err;
+    }
+    var examTemplateSucess = function (data) {
+        ExamData.setExamTemplateData(data.data);
     }
 
     // getBatchInfoService.getBatch(successFunction, errorFunction);
@@ -118,68 +128,58 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
 }
 
 
-app.controller('examViewController', function ($scope, examQuestionService, ExamData, $state){
+app.controller('examViewController', function ($scope, examQuestionService, ExamData, $state) {
     var exam = ExamData.exam;
-    var successFunction = function(ship) {
+    var successFunction = function (ship) {
         exam = ship.data;
         $scope.exam = exam;
         console.log(exam.ExamQuestions[0].quest);
         console.log(exam);
     };
-    var errorFunction = function(err) {
+    var errorFunction = function (err) {
         $scope.ship = err;
     };
-    examQuestionService.getExamQuestions(exam, successFunction,errorFunction);
-    
-    $scope.addQuestionToExam = function (){
+    examQuestionService.getExamQuestions(exam, successFunction, errorFunction);
+
+    $scope.addQuestionToExam = function () {
         var questions;
-        var successFunction = function(ship) {
+        var successFunction = function (ship) {
             questions = ship.data;
             $scope.questions = questions;
             console.log(questions);
         };
-        var errorFunction = function(err) {
+        var errorFunction = function (err) {
             $scope.ship = err;
         };
-        examQuestionService.getAllQuestions(successFunction,errorFunction); 
+        examQuestionService.getAllQuestions(successFunction, errorFunction);
     };
 
-    $scope.addQ = function(eq){
+    $scope.addQ = function (eq) {
         var question = eq;
-        var successFunction = function(ship) {
+        var successFunction = function (ship) {
             console.log(ship.data);
             $state.reload();
         };
-        var errorFunction = function(err) {
+        var errorFunction = function (err) {
             $scope.ship = err;
         };
-        examQuestionService.addQ(exam.ExamTemplateID, question.ExamQuestionID, successFunction,errorFunction);
+        examQuestionService.addQ(exam.ExamTemplateID, question.ExamQuestionID, successFunction, errorFunction);
     }
 
 });
 
-
-app.controller('associateExamSettingsCtrl', function ($scope) {
-    $scope.examname = "Test 1: C# and .NET Framework";
-    $scope.startdate = "Monday, April 3, 2017";
-    $scope.starttime = "10:00 am";
-    $scope.endtime = "12:00 pm";
-    $scope.lengthofexam = 90;
-    $scope.numberofquestions = 23;
-});
-
-app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state){
+app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state) {
     var exams;
-    var successFunction = function(ship) {
+    var successFunction = function (ship) {
         exams = ship.data;
         $scope.exams = exams;
         console.log(exams);
     };
-    var errorFunction = function(err) {
+    var errorFunction = function (err) {
         $scope.ship = err;
     };
-    examService.getExams(successFunction,errorFunction);
-    $scope.getExamQuestions = function (e){
+    examService.getExams(successFunction, errorFunction);
+    $scope.getExamQuestions = function (e) {
         console.log(e);
         ExamData.exam = e;
         $state.go('examQuestionView');
@@ -263,14 +263,18 @@ app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchI
 
 });
 
-app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings) {
-    $scope.examname = "Test 1: C# and .NET Framework";
-    $scope.startdate = "Monday, April 3, 2017";
-    $scope.starttime = "10:00 am";
-    $scope.endtime = "12:00 pm";
-    $scope.lengthofexam = 90;
-    $scope.numberofquestions = 23;
-    
+app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings, ExamData, ExamTemplateService) {
+    $scope.BatchExams = ExamData.getBatchExamSettings();
+
+    $scope.examname = "Test: ";
+    $scope.startdate = 0;//BatchExams[0].StartTime.getDate();//"Monday, April 3, 2017";
+    $scope.starttime = 0;//BatchExams[0].StartTime.getHours() + ":" + BatchExams[0].StartTime.getMinutes();
+    $scope.endtime = 0;//BatchExams[0].EndTime.getHours() + ":" + BatchExams[0].EndTime.getMinutes();
+    $scope.lengthofexam = 0;//BatchExams[0].LengthOfExamInMinutes;
+    //$scope.numberofquestions = 23;
+
+    $scope.returnedData = ExamData.getExamTemplateData();
+
     $scope.myDate = new Date();
 
     $scope.examSettings =
@@ -323,6 +327,8 @@ app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings)
 
     $scope.batchId = "WeTheBest";
 
+    $scope.returnedData = {};
+
     $scope.submitExamSetting = function () {
         //do stuff in here when submit
 
@@ -351,8 +357,6 @@ app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings)
         storeExamSettings.saveSettings($scope.examSettings, saveExamSuccessFunction, errorFunction);
     };
 
-    $scope.returnedData;
-
     var saveExamSuccessFunction = function (data) {
         storeExamSettings.assignToBatch(
             {
@@ -368,9 +372,10 @@ app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings)
     var assignToUserSuccess = function (data) {
         $scope.returnedData = data.data;
     }
+    var examTemplateSucess = function (data) {
+        $scope.returnedData = data;
+    }
     var errorFunction = function (err) {
         $scope.returnedData = err;
     };
-
-
 });
