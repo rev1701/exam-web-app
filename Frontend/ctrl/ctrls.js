@@ -51,6 +51,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
     $scope.status;
     $scope.batchName;
     $scope.batchTrainer;
+    $scope.exams;
 
     initController();
 
@@ -95,6 +96,9 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
             }
         }
 
+        for(var i = 0; i < batch.data[0].ExamSettings.length; i++){
+            $scope.exams = batch.data[0].ExamSettings[i].ExamTemplateID;
+        }
 
         $scope.batchName = batch.data[0].BatchID; // returns the batches name
         $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
