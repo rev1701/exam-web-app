@@ -123,3 +123,7 @@ tr:nth-child(even) {
  #listofexams{
      text-align: center;
  }
+
+ .test{
+    width:40%;
+ }
