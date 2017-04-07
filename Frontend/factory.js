@@ -9,8 +9,6 @@ app.factory('storeExamSettings', function ($http) {
            }, function (err) {
                errorCallback(err);
            });
-
-
    };
 
    var assignToUser = function (settingsData, successCallback, errorCallback) {
@@ -20,8 +18,6 @@ app.factory('storeExamSettings', function ($http) {
            }, function (err) {
                errorCallback(err);
            });
-
-
    };
 
    var assignToBatch = function (settingBatchObj, successCallback, errorCallback) {
@@ -31,8 +27,6 @@ app.factory('storeExamSettings', function ($http) {
            }, function (err) {
                errorCallback(err);
            });
-
-
    };
 
    return {

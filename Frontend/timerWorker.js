@@ -5,8 +5,7 @@ var timer;
 
 // listen for message from the main script that called this web worker
 onmessage = function(event) {
-    // console.log(event);
-    var counter = event.data * 60; 
+    var counter = event.data * 60; // the timer converts the minutes to seconds
 	
 	if (timer){
 		clearInterval(timer);
