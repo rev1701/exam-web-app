@@ -29,30 +29,31 @@
     </div>
     <!-- .col-md-2 -->
 
-    <!--Giving a little more separation between the questions and the content.-->
-    <div class="col-md-1">
-    </div>
+    <br><br>
 
-    <!-- Disply where the questions and answers will be presented -->
-    <div class="col-md-6" ng-repeat="quest in questions">
-        <div class="questiondescription">
-            {{quest.quest[0].Description}}
-        </div>
-        <!-- .questiondescription -->
-        <br><br>
-        <form action="">
-            <div class="answeroptions" ng-repeat="ans in quest.quest[0].Answers">
-                <input type="radio" name="answer" value="ans.Answer1" />{{ans.Answer1}}
-                <br>
+    <div class="container">
+        <!--Giving a little more separation between the questions and the content.-->
+
+
+        <!-- Disply where the questions and answers will be presented -->
+        <div class="col-md-10" ng-repeat="quest in questions">
+            <div class="questiondescription">
+                {{quest.quest[0].Description}}
             </div>
-            <!-- .answeroptions -->
-        </form>
-        <br><br>
-        <!-- .prevornext -->
+            <!-- .questiondescription -->
+            <br>
+            <form action="">
+                <div class="answeroptions" ng-repeat="ans in quest.quest[0].Answers">
+                    <input type="radio" name="answer" value="ans.Answer1" />{{ans.Answer1}}
+                    <br>
+                </div>
+                <!-- .answeroptions -->
+            </form>
+        </div>
     </div>
 
-    <div class="prevornext">
-        <a href=""><button type="button" class='btn btn-success'>Sumbit</button></a>
+    <div class="prevornext col-md-10 center">
+        <a href=""><button type="button" class='btn btn-success'>Submit</button></a>
     </div>
     <!-- .col-md-6 -->
 </div>

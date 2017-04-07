@@ -63,7 +63,7 @@
 }
 
 .questiondescription{
-    font-size: 16px;
+    font-size: 24px;
 }
 
 #weekslabel{
@@ -122,4 +122,8 @@ tr:nth-child(even) {
 
  #listofexams{
      text-align: center;
+ }
+
+ .test{
+    width:40%;
  }
