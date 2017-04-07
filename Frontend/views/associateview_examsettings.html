@@ -21,6 +21,7 @@
                 <br>
                 Length of Test: <u>{{BatchExams[0].LengthOfExamInMinutes}} minutes</u>
                 <br>
+                <!-- TODO: Returns the number of questions in the exam -->
                 <!--# of Questions: <u>{{returnedData.ExamQuestions.length}}</u>-->
                 <br><br>
             </div>
@@ -28,9 +29,10 @@
 
     <div id="startButtons">
         <a href="#!/examinprogress"><button type="button" class='btn btn-success'>Start Test</button></a>
-        <a href="#!/home"><button type="button" class='btn btn-danger'>Go Back</button></a>
+        <a href="#!/associateHome"><button type="button" class='btn btn-danger'>Go Back</button></a>
     </div>
 
-    {{returnedData}}
-
+    <!-- Debugging
+        {{returnedData}}
+    -->
 </div>

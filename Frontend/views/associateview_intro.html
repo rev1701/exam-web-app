@@ -4,16 +4,21 @@
         <div id="associatestandinglabel">
             <b>Associate's Standing</b>
         </div>
+        <!-- Displays the current standing of the associate -->
         <div id="associatestatus">
-            Status: <u>{{status}}</u>
+            Status: <u>{{status}}</u> <!-- i.e. Status: Needs Improvement -->
         </div>
         <div>
-            <!--[this is where we import the graph that shows the progress of the associate]-->
+            <!--TODO:
+            [this is where we import the line graph that shows the progress of the associate]
+            -->
             <div id="chart_div"></div>
         </div>
+        <!-- Displays the batches name in which the associate is in -->
         <div id="associatestatus">
             Associate's Batch: <u>{{batchName}}</u>
         </div>
+        <!-- Displays the trainer of the batch in which the associate is in -->
         <div id="associatestatus">
             Trainer: <u>{{batchTrainer}}</u>
         </div>
@@ -21,9 +26,11 @@
 
 
     <div class="col-md-8" id="assocaitedetails">
+        <!-- Welcomes the associate who logged in -->
         <div class="welcomeuser">
-            <b>Welcome {{user.fname}} {{user.lname}}!</b>
+            <b>Welcome {{user.fname}} {{user.lname}}!</b> <!-- i.e. Welcome John Smith! -->
         </div>
+        <!-- Display that the user is an associate -->
         <div class="userType">
             {{userType}}
             <!--{{user.UserType}}-->
@@ -34,12 +41,17 @@
             <b><u>Exam</u></b>
         </div>
         <br>
+        <!--TODO: Wanted to display all the exams a user can take. Expandable list of exam
+        name that displays the option to start exam or review results from exam. Can only
+        start exam is within the parameters of the state day that the trainer of the batch
+        establishes.-->
+        <!-- 
         <div id="listofexams" ng-repeat="items in exams">
             {{items}}
         </div>
-
-
+        
         {{aBatch.data[0].ExamSettings}}
+        -->
 
     </div>
 </div>
