@@ -35,6 +35,7 @@
     border-style: solid;
     border-color: darkorange;
     border-width: 5px;
+    background-color: lightgray;
     /*margin-left: 10px;*/
 }
 
@@ -62,7 +63,7 @@
 }
 
 .questiondescription{
-    font-size: 16px;
+    font-size: 24px;
 }
 
 #weekslabel{
@@ -117,4 +118,12 @@ tr:nth-child(even) {
      color: yellow;
      margin-right: 30px;
      margin-top: 15px;
+ }
+
+ #listofexams{
+     text-align: center;
+ }
+
+ .test{
+    width:40%;
  }

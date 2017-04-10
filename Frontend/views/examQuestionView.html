@@ -1,0 +1,24 @@
+<div>
+	<div class="col-md-4">
+		<b><u>Questions:</u></b>
+		<div ng-repeat="eq in exam.ExamQuestions">
+			<div ng-repeat="quest in eq">
+				<div ng-repeat="d in quest track by $index">{{d.Description}}</div>
+			</div>
+		</div>
+		<button ng-click="addQuestionToExam()">Add Question to Exam</button>
+	</div>
+	<table class="col-md-4">
+		<tr><td>
+			
+  	<div ng-repeat="eq in questions">
+		<div ng-repeat="quest in eq">
+			<a href="" ng-repeat="d in quest track by $index" ng-click="addQ(eq)">
+			{{d.Description}}
+			</a>
+		</div>
+	</div>
+
+		</td></tr>
+	</table>
+</div>

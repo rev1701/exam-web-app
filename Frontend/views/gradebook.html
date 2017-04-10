@@ -7,13 +7,16 @@
         <thead>
             <tr>
                 <th>
-                    #
+                    # <!-- column associate's id goes in -->
                 </th>
                 <th>
-                    Name
+                    Name <!-- column associate's name goes in -->
                 </th>
+                <!--TODO: There should be more than one exam column. ng-repeat should
+                be called to create and return the number of exams that an associate
+                has taken.-->
                 <th>
-                    Exam {{index}}
+                    Exam
                 </th>
             </tr>
         </thead>
@@ -21,10 +24,10 @@
             <!--Only populates the gradebook with associates of a batch-->
             <tr ng-repeat="items in fullname" ng-if="items.User.UserType1.Role == 'Associate'">
                 <td>
-                   {{items.UserID}}
+                   {{items.UserID}} <!-- returns associate's id -->
                 </td>
                 <td>
-                     {{items.User.fname}} {{items.User.lname}}
+                     {{items.User.fname}} {{items.User.lname}} <!-- returns associate's first and last name -->
                 </td>
             </tr>
         </tbody>

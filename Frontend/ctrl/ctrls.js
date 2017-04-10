@@ -43,14 +43,17 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
+HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state', 'ExamData', 'ExamTemplateService'];
+function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location, $state, ExamData, ExamTemplateService) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
     $scope.status;
     $scope.batchName;
     $scope.batchTrainer;
+    $scope.exams;
+
+    $scope.aBatch;
 
     initController();
 
@@ -70,7 +73,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
                 $scope.userEmail = user.email;
             });
     }
-    var successFunction = function (batch) {      
+    var successFunction = function (batch) {
         var noa = 0; // noa stands for number of associates in a batch
 
         // only retreives the associates from a batch
@@ -82,25 +85,41 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
         }
 
         // returns the correct trainer of a particular batch
-        for(var i = 0; i < batch.data[0].Rosters.length; i++){
-            if(batch.data[0].Rosters[i].User.UserType1.Role == "Trainer"){
+        for (var i = 0; i < batch.data[0].Rosters.length; i++) {
+            if (batch.data[0].Rosters[i].User.UserType1.Role == "Trainer") {
                 $scope.batchTrainer = batch.data[0].Rosters[i].User.fname + " " + batch.data[0].Rosters[i].User.lname;
             }
         }
 
-        for(var i = 0; i < batch.data[0].Rosters.length; i++){
-            if(batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email){
+
+        for (var i = 0; i < batch.data[0].Rosters.length; i++) {
+            if (batch.data[0].Rosters[i].User.email == $rootScope.globals.currentUser.email) {
                 $scope.status = batch.data[0].Rosters[i].StatusType.Description;
             }
         }
 
+        for (var i = 0; i < batch.data[0].ExamSettings.length; i++) {
+            $scope.exams = batch.data[0].ExamSettings[i].ExamTemplateID;
+        }
 
         $scope.batchName = batch.data[0].BatchID; // returns the batches name
         $scope.fullname = batch.data[0].Rosters; // returns the names of all the associates in a batch
         $scope.numOfAssociates = noa; // return the number of associates in a batch
+
+        $scope.routeToExams = function () {
+            $state.go('trainerChangeExistingExam');
+        };
+
+        ExamData.setBatchExamSettings(batch.data[0].ExamSettings);
+
+        ExamTemplateService.getExamTemplate(batch.data[0].ExamSettings[0].ExamTemplateID, examTemplateSucess, errorFunction);
+
     }
     var errorFunction = function (err) {
         $scope.batchName = err;
+    }
+    var examTemplateSucess = function (data) {
+        ExamData.setExamTemplateData(data.data);
     }
 
     // getBatchInfoService.getBatch(successFunction, errorFunction);
@@ -108,18 +127,71 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope) {
 
 }
 
-app.controller('associateExamSettingsCtrl', function ($scope) {
-    $scope.examname = "Test 1: C# and .NET Framework";
-    $scope.startdate = "Monday, April 3, 2017";
-    $scope.starttime = "10:00 am";
-    $scope.endtime = "12:00 pm";
-    $scope.lengthofexam = 90;
-    $scope.numberofquestions = 23;
+
+app.controller('examViewController', function ($scope, examQuestionService, ExamData, $state) {
+    var exam = ExamData.exam;
+    var successFunction = function (ship) {
+        exam = ship.data;
+        $scope.exam = exam;
+        console.log(exam.ExamQuestions[0].quest);
+        console.log(exam);
+    };
+    var errorFunction = function (err) {
+        $scope.ship = err;
+    };
+    examQuestionService.getExamQuestions(exam, successFunction, errorFunction);
+
+    $scope.addQuestionToExam = function () {
+        var questions;
+        var successFunction = function (ship) {
+            questions = ship.data;
+            $scope.questions = questions;
+            console.log(questions);
+        };
+        var errorFunction = function (err) {
+            $scope.ship = err;
+        };
+        examQuestionService.getAllQuestions(successFunction, errorFunction);
+    };
+
+    $scope.addQ = function (eq) {
+        var question = eq;
+        var successFunction = function (ship) {
+            console.log(ship.data);
+            $state.reload();
+        };
+        var errorFunction = function (err) {
+            $scope.ship = err;
+        };
+        examQuestionService.addQ(exam.ExamTemplateID, question.ExamQuestionID, successFunction, errorFunction);
+    }
+
 });
 
-app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService) {
-    $scope.lengthofexam = 90;
-    $scope.question = "This is where the WebAPI will retreive the question info and will be displayed here.";
+app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state) {
+    var exams;
+    var successFunction = function (ship) {
+        exams = ship.data;
+        $scope.exams = exams;
+        console.log(exams);
+    };
+    var errorFunction = function (err) {
+        $scope.ship = err;
+    };
+    examService.getExams(successFunction, errorFunction);
+    $scope.getExamQuestions = function (e) {
+        console.log(e);
+        ExamData.exam = e;
+        $state.go('examQuestionView');
+    };
+});
+
+app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService, ExamData) {
+    $scope.BatchExams = ExamData.getBatchExamSettings();
+    $scope.examTemplate = ExamData.getExamTemplateData();
+
+    $scope.lengthofexam = $scope.BatchExams[0].LengthOfExamInMinutes;
+    $scope.questions = $scope.examTemplate.ExamQuestions;
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
     $scope.isEditable = false;
     $scope.testStarted = false;
@@ -192,4 +264,122 @@ app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchI
 
     $scope.userType = "Trainer";
 
+});
+
+app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings, ExamData, ExamTemplateService) {
+    $scope.BatchExams = ExamData.getBatchExamSettings();
+    $scope.returnedData = ExamData.getExamTemplateData();
+
+
+    $scope.examname = "Test: ";
+    $scope.startdate = $scope.BatchExams[0];//$scope.BatchExams[0].StartTime.getDate();//"Monday, April 3, 2017";
+    $scope.starttime = 0;//BatchExams[0].StartTime.getHours() + ":" + BatchExams[0].StartTime.getMinutes();
+    $scope.endtime = 0;//BatchExams[0].EndTime.getHours() + ":" + BatchExams[0].EndTime.getMinutes();
+    $scope.lengthofexam = 0;//BatchExams[0].LengthOfExamInMinutes;
+    //$scope.numberofquestions = 23;
+
+
+    $scope.myDate = new Date();
+
+    $scope.examSettings =
+        {
+            ExamSettingsID: 0,
+            StartTime: new Date(),
+            LengthOfExamInMinutes: 0,
+            EndTime: new Date(),
+            AllowedAttempts: 0,
+            ExamTemplateID: "something_1",
+            Editable: false,
+
+        }
+
+    $scope.minDate = new Date(
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth(),
+        $scope.myDate.getDate()
+    );
+
+    $scope.maxDate = new Date(
+        $scope.myDate.getFullYear(),
+        $scope.myDate.getMonth() + 6,
+        $scope.myDate.getDate()
+    );
+
+    $scope.startTime2;
+
+    $scope.isOpen = false;
+
+    $scope.finalDate = new Date();
+
+    $scope.timeLimitInMinutes = 60;
+
+    $scope.timeOpenInHours = 2;
+
+    $scope.examTemplates = [
+        { examId: "Training_2" },
+        { examId: "Training_1" },
+        { examId: "Training_3" }
+    ];
+
+    $scope.selectedTemplate = "none"
+
+    $scope.editableTest = false;
+
+    $scope.allowedAttempts = 0;
+
+    $scope.endTime2 = 0;
+
+    $scope.batchId = "WeTheBest";
+
+    $scope.returnedData = {};
+
+    $scope.submitExamSetting = function () {
+        //do stuff in here when submit
+
+        $scope.endTime = parseInt($scope.startTime) + parseInt($scope.timeOpenInHours);
+        $scope.examSettings.StartTime = new Date(
+            $scope.myDate.getFullYear(),
+            $scope.myDate.getMonth(),
+            $scope.myDate.getDate()
+        );
+
+        $scope.examSettings.EndTime = new Date(
+            $scope.myDate.getFullYear(),
+            $scope.myDate.getMonth(),
+            $scope.myDate.getDate()
+        );
+
+        $scope.examSettings.StartTime.setHours(parseInt($scope.startTime) - 4);
+        $scope.examSettings.EndTime.setHours($scope.endTime - 4);
+
+        $scope.examSettings.LengthOfExamInMinutes = $scope.timeLimitInMinutes;
+
+        $scope.examSettings.AllowedAttempts = $scope.allowedAttempts;
+        $scope.examSettings.ExamTemplateID = $scope.selectedTemplate;
+        $scope.examSettings.Editable = $scope.editableTest;
+
+        storeExamSettings.saveSettings($scope.examSettings, saveExamSuccessFunction, errorFunction);
+    };
+
+    var saveExamSuccessFunction = function (data) {
+        storeExamSettings.assignToBatch(
+            {
+                sID: data.data.ExamSettingsID,
+                bID: $scope.batchId
+            },
+            assignToBatchSuccess,
+            errorFunction);
+    }
+    var assignToBatchSuccess = function (data) {
+        $scope.returnedData = data.data;
+    }
+    var assignToUserSuccess = function (data) {
+        $scope.returnedData = data.data;
+    }
+    var examTemplateSucess = function (data) {
+        $scope.returnedData = data;
+    }
+    var errorFunction = function (err) {
+        $scope.returnedData = err;
+    };
 });

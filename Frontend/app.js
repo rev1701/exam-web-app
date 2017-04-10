@@ -1,60 +1,84 @@
-var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate']);
+var app = angular.module('USL1701.Frontend', ['ui.router', 'ngSanitize', 'ui.bootstrap', 'ngAnimate', 'ngMaterial', 'ngMessages']);
 
 (function () {
     'use strict';
 
-app.config(function($stateProvider, $urlRouterProvider, $qProvider) {
-    $urlRouterProvider.otherwise('/login');
-    $qProvider.errorOnUnhandledRejections(false);
-    
-    $stateProvider
-    .state('/',{
-        url: '/associateHome',
-            templateUrl: 'views/associateview_intro.html',
-            controller: 'associateWelcomeCtrl'     
-    })
-    .state('examsettings',{
-        url: '/examsettings',
-        templateUrl: 'views/associateview_examsettings.html',
-        controller: "associateExamSettingsCtrl"        
-    })
-    .state('examinprogress',{
-        url: '/examinprogress',
-        views:{
-            '': {
-            templateUrl: 'views/examnavbar.html'}
-            ,
-            'progress@examinprogress':{
-            templateUrl: 'views/associateview_examinprogress.html',
-            }
-        },
-        controller: 'associateInExamCtrl'
-    })
-    .state('login',{
-        url: '/login',
-        templateUrl: 'views/login.html',
-        controller: 'loginCtrl',
-        controllerAs: 'vm'
-    })
-    .state('trainerwelcome',{
-        url: '/trainerwelcome',
-        views:{
-            '': {
-                templateUrl: 'views/trainerview_welcome.html',
-                controller: 'trainerWelcomeCtrl'
-            },
-            'gradebook@trainerwelcome':{
-                templateUrl: 'views/gradebook.html',
-                controller: 'trainerWelcomeCtrl'
-            }
-        }
-    });    
-    
-});
+    app.config(function ($stateProvider, $urlRouterProvider, $qProvider) {
+        $urlRouterProvider.otherwise('/login');
+        $qProvider.errorOnUnhandledRejections(false);
 
-   run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
+        $stateProvider
+            // if user is an associate, this is the first state they will see
+            .state('/', {
+                url: '/associateHome',
+                templateUrl: 'views/associateview_intro.html',
+                controller: 'associateWelcomeCtrl'
+            })
+            /* from the list of exams from associateHome, this state presents the
+             * settings for that exam
+             */
+            .state('examsettings', {
+                url: '/examsettings',
+                templateUrl: 'views/associateview_examsettings.html',
+                controller: "associateExamSettingsCtrl"
+            })
+            // settings for a trainer to create rules for a particular exam template
+            .state('settings', {
+                url: '/settings',
+                templateUrl: 'views/settings.html',
+                controller: "associateExamSettingsCtrl"
+            })
+            // state where associate is taking an exam
+            .state('examinprogress', {
+                url: '/examinprogress',
+                views: {
+                    '': {
+                        templateUrl: 'views/examnavbar.html'  // adds a nav bar specific with just the timer in the top-right corner
+                    }
+                    ,
+                    'progress@examinprogress': {
+                        templateUrl: 'views/associateview_examinprogress.html',
+                    }
+                },
+                controller: 'associateInExamCtrl'
+            })
+            // first state that application begins on: the login
+            .state('login', {
+                url: '/login',
+                templateUrl: 'views/login.html',
+                controller: 'loginCtrl',
+                controllerAs: 'vm'  // I believe what is used in the loginCtrl to grab info about the user from their email
+            })
+            // if user is a trainer, this is the first state they will see 
+            .state('trainerwelcome', {
+                url: '/trainerwelcome',
+                views: {
+                    '': {
+                        templateUrl: 'views/trainerview_welcome.html',
+                        controller: 'trainerWelcomeCtrl'
+                    },
+                    'gradebook@trainerwelcome': {
+                        templateUrl: 'views/gradebook.html',
+                        controller: 'trainerWelcomeCtrl'
+                    }
+                }
+            })
+            .state('trainerChangeExistingExam', {
+                url: '/trainerChangeExistingExam',
+                templateUrl: 'views/trainerview_changeexistingexam.html',
+                controller: 'trainerChangeExistingExam'
+            })
+            .state('examQuestionView', {
+                url: '/examQuestionView',
+                templateUrl: 'views/examQuestionView.html',
+                controller: 'examViewController'
+            });
+
+    });
+
+    run.$inject = ['$rootScope', '$location', '$cookies', '$http'];
     function run($rootScope, $location, $cookies, $http) {
-        // keep user logged in after page refresh
+        // keep user logged in after page refresh: this inject may need more work on keeping user logged in after reload
         $rootScope.globals = $cookies.getObject('globals') || {};
         if ($rootScope.globals.currentUser) {
             $http.defaults.headers.common['Authorization'] = 'Basic ' + $rootScope.globals.currentUser.authdata;

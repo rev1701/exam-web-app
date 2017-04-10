@@ -1,14 +1,105 @@
-app.service("getBatchInfoService", function($http){
-    this.getBatch = function(email, successCallback, errorCallback){
+app.service("getBatchInfoService", function ($http) {
+    this.getBatch = function (email, successCallback, errorCallback) {
         $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/batches/GetBatches?email=" + email)
-            .then(function(data){
+            .then(function (data) {
                 successCallback(data);
-            }, function(err){
+            }, function (err) {
                 errorCallback(err);
             });
     }
 });
 
+app.service("examService", function ($http) {
+    this.getExams = function (successCallback, errorCallback) {
+        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/GetIdList")
+            .then(function (data) {
+                successCallback(data);
+            }, function (err) {
+                errorCallback(err);
+            });
+    };
+});
+
+app.service("ExamTemplateService", function ($http) {
+    var domain = "http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/GetExam/"
+
+    var getExamTemplate = function (examTemplateID, successCallback, errorCallback) {
+        $http.get((domain + examTemplateID))
+            .then(function (data) {
+                successCallback(data);
+            }, function (err) {
+                errorCallback(err);
+            });
+    }
+
+    return {
+        getExamTemplate: getExamTemplate
+    }
+});
+
+app.service("examQuestionService", function ($http) {
+    this.getExamQuestions = function (examid, successCallback, errorCallback) {
+        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/GetExam/" + examid)
+            .then(function (data) {
+                successCallback(data);
+            }, function (err) {
+                errorCallback(err);
+            });
+    };
+
+    this.getAllQuestions = function (successCallback, errorCallback) {
+        $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamQuestion/GetAllExamQuestions")
+            .then(function (data) {
+                successCallback(data);
+            }, function (err) {
+                errorCallback(err);
+            });
+    };
+
+    this.addQ = function (examTemplateID, question, successCallback, errorCallback) {
+        $http.put("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/ExamAssessmentWebAPI/api/ExamTemplate/AddQuestionToExam/?extid=" + examTemplateID + "&weight=1", JSON.stringify(question))
+            .then(function (data) {
+                successCallback(data);
+            }, function (err) {
+                console.log(err);
+                errorCallback(err);
+
+            });
+    };
+
+});
+
+app.service("ExamData", function () {
+    var exam = {};
+
+    var batchExamSettingsData = {};
+
+    var examTemplateData = {};
+
+    var setBatchExamSettings = function (data) {
+        batchExamSettingsData = data;
+    }
+
+    var getBatchExamSettings = function () {
+        return batchExamSettingsData;
+    }
+
+    var setExamTemplateData = function (data) {
+        examTemplateData = data;
+    }
+
+    var getExamTemplateData = function () {
+        return examTemplateData;
+    }
+
+    return {
+        setBatchExamSettings: setBatchExamSettings,
+        getBatchExamSettings: getBatchExamSettings,
+        setExamTemplateData: setExamTemplateData,
+        getExamTemplateData: getExamTemplateData,
+        exam: exam
+    };
+});
 
 // service for timer
 // features:
@@ -16,12 +107,12 @@ app.service("getBatchInfoService", function($http){
 // -- start timer
 // -- timer toString
 
-app.service('timerService', function($rootScope) {
+app.service('timerService', function ($rootScope) {
     var timerWorker = undefined; // if not undefined then web worker is running
     this.hasStarted = false;
-    
+
     // start timer web worker
-    this.StartTimer = function(timeInSeconds) {
+    this.StartTimer = function (timeInSeconds) {
         this.hasStarted = true;
         // if worker exist, then reset
         if (timerWorker) {
@@ -33,23 +124,23 @@ app.service('timerService', function($rootScope) {
         // send timer value to web worker
         timerWorker.postMessage(timeInSeconds);
     };
-    
+
     // terminate timer web worker and 'delete' it
     this.ResetTimer = TimerReset(timerWorker);
-    
+
     // convert time in seconds to string format mm:ss
-    this.ConvertTimerToString = function(timerInSeconds) {
+    this.ConvertTimerToString = function (timerInSeconds) {
         return TimeToString(timerInSeconds);
     };
 
     // function to return the current timer value
-    this.GetCurrentTime = function() {
+    this.GetCurrentTime = function () {
         var result = 0; // time in seconds
-        
+
         // get time from timer web worker
         if (timerWorker) {
             // listen to web worker
-            timerWorker.onmessage = function(workerEvent) {
+            timerWorker.onmessage = function (workerEvent) {
                 result = workerEvent.data;
                 // if timer is done, i.e. at zero
                 if (result === 0) {
@@ -69,28 +160,28 @@ app.service('timerService', function($rootScope) {
 
 // convert seconds to string format mm:ss
 function TimeToString(timeInSeconds) {
-	var result = '';
-	var s = timeInSeconds % 60; // use modulus to get seconds
-	var m = Math.floor(timeInSeconds / 60 % 60); // get minutes
+    var result = '';
+    var s = timeInSeconds % 60; // use modulus to get seconds
+    var m = Math.floor(timeInSeconds / 60 % 60); // get minutes
     var h = Math.floor(timeInSeconds / 60 / 60); // get hours
-	
-	// build the timer as string in format hh:mm:ss
-    result += (h < 10)? '0'	+ h : h;
-	result += ':';
-    result += (m < 10)? '0' + m : m; // ternary operator
-	result += ':';
-	result += (s < 10)? '0' + s : s;
 
-	return result;    
+    // build the timer as string in format hh:mm:ss
+    result += (h < 10) ? '0' + h : h;
+    result += ':';
+    result += (m < 10) ? '0' + m : m; // ternary operator
+    result += ':';
+    result += (s < 10) ? '0' + s : s;
+
+    return result;
 };
 
 // reset the timer
 function TimerReset(timerworker) {
     // if worker exist, then reset
-    if(timerworker) {
+    if (timerworker) {
         timerworker.terminate(); // stop
         timerworker = undefined; // delete
-    }    
+    }
 };
 
 //factory service to get data from our Login Web API
@@ -301,7 +392,7 @@ app.service("UserData", function () {
         function Success(message, keepAfterLocationChange) {
             $rootScope.flash = {
                 message: message,
-                type: 'success', 
+                type: 'success',
                 keepAfterLocationChange: keepAfterLocationChange
             };
         }
@@ -329,37 +420,24 @@ app.service("UserData", function () {
         var service = {};
 
         service.GetAll = GetAll;
-        // service.GetById = GetById;
         service.GetByEmail = GetByEmail;
         service.GetByEmail2 = GetByEmail2;
-        // service.Update = Update;
-        // service.Delete = Delete;
 
         return service;
 
         function GetAll() {
             return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login").then(handleSuccess, handleError('Error getting all users'));
-            // return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
         }
 
         // gets user by email from the Login API
         function GetByEmail(email) {
-            // var domain = $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login");
-            return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/users/getuser?email="+email).then(handleSuccess, handleError('Error getting user by username'));
+            return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/users/getuser?email=" + email).then(handleSuccess, handleError('Error getting user by username'));
         }
 
         // // gets user by email from the User Buffet API
         function GetByEmail2(email) {
             return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/users/GetUser?email=" + email).then(handleSuccess, handleError('Error creating user'));
         }
-
-        // function Update(user) {
-        //     return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
-        // }
-
-        // function Delete(id) {
-        //     return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
-        // }
 
         // private functions
 
