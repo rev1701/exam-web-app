@@ -224,7 +224,8 @@ app.controller('collapseCtrl', function ($scope, $location) {
 
 });
 
-app.controller('trainerWelcomeCtrl', function ($scope, getBatchInfoService, $state) {
+app.controller('trainerWelcomeCtrl',  function ($scope, getBatchInfoService, $state) {
+
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
 
