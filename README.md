@@ -50,3 +50,6 @@ The first view is the login screen. A user is prompted to enter their email and 
 - services.js
 - login.html
 
+## Associate's Welcome
+Once an associate is granted authorization after authentication, they will see their welcome screen. It provides the associate's status (whether or not the associate is doing well or not), the current batch's name in which the user is in, and the trainer of the same batch. This page also calls the associate by name and gives them a more personal feel.
+To be added, under the associate's name and type will be a list of exams available to the batch they are apart of. If an associate has already taken the exam, they will be able to review their answers and the score in which they received. If the exam time is not open yet, the only way they can interact with the exam is when the date and timeframe of the exam settings are met. 
