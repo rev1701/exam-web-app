@@ -3,9 +3,9 @@
 
     app.controller('loginCtrl', LoginController);
 
-    LoginController.$inject = ['$location', 'AuthenticationService', 'FlashService'];
-    function LoginController($location, AuthenticationService, FlashService) {
-
+    LoginController.$inject = ['$location', 'isLoginPage','AuthenticationService', 'FlashService'];
+    function LoginController($location, AuthenticationService, FlashService,isLoginPage) {
+        var dm = isLoginPage.func();
         // got this code from http://jasonwatmore.com/post/2015/03/10/angularjs-user-registration-and-login-example-tutorial#projectstructure
         var vm = this;
 
@@ -43,8 +43,8 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state', 'ExamData', 'ExamTemplateService'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location, $state, ExamData, ExamTemplateService) {
+HomeController.$inject = ['AuthenticationService', 'UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state', 'ExamData', 'ExamTemplateService'];
+function HomeController(AuthenticationService,UserService, getBatchInfoService, $rootScope, $scope, $location, $state, ExamData, ExamTemplateService) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
@@ -52,14 +52,15 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
     $scope.batchName;
     $scope.batchTrainer;
     $scope.exams;
-
+    
     $scope.aBatch;
-
+    AuthenticationService.isSessionTimedOut()
     initController();
-
+  
     function initController() {
         loadCurrentUser();
     }
+   
 
     function loadCurrentUser() {
         // doesn't work: if user isn't signed in, will reroute automatically to login screen
@@ -107,6 +108,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
         $scope.numOfAssociates = noa; // return the number of associates in a batch
 
         $scope.routeToExams = function () {
+       
             $state.go('trainerChangeExistingExam');
         };
 
@@ -121,24 +123,28 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
     var examTemplateSucess = function (data) {
         ExamData.setExamTemplateData(data.data);
     }
-
+   
+     // setInterval(AuthenticationService.isSessionTimedOut(), 3000);
     // getBatchInfoService.getBatch(successFunction, errorFunction);
     getBatchInfoService.getBatch($rootScope.globals.currentUser.email, successFunction, errorFunction);
 
 }
 
 
-app.controller('examViewController', function ($scope, examQuestionService, ExamData, $state) {
+app.controller('examViewController', function ($window,$scope, examQuestionService,AuthenticationService, ExamData, $state) {
+    AuthenticationService.isSessionTimedOut()
     var exam = ExamData.exam;
     var successFunction = function (ship) {
         exam = ship.data;
         $scope.exam = exam;
         console.log(exam.ExamQuestions[0].quest);
         console.log(exam);
+        
     };
     var errorFunction = function (err) {
         $scope.ship = err;
     };
+  //   setInterval(AuthenticationService.isSessionTimedOut(), 3000);
     examQuestionService.getExamQuestions(exam, successFunction, errorFunction);
 
     $scope.addQuestionToExam = function () {
@@ -170,6 +176,7 @@ app.controller('examViewController', function ($scope, examQuestionService, Exam
 
 app.controller('trainerChangeExistingExam', function ($scope, examService, ExamData, $state) {
     var exams;
+    AuthenticationService.isSessionTimedOut()
     var successFunction = function (ship) {
         exams = ship.data;
         $scope.exams = exams;
@@ -186,16 +193,16 @@ app.controller('trainerChangeExistingExam', function ($scope, examService, ExamD
     };
 });
 
-app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, timerService, ExamData) {
+app.controller('associateInExamCtrl', function (AuthenticationService,$scope, $rootScope, $timeout, timerService, ExamData) {
     $scope.BatchExams = ExamData.getBatchExamSettings();
     $scope.examTemplate = ExamData.getExamTemplateData();
-
+    AuthenticationService.isSessionTimedOut();
     $scope.lengthofexam = $scope.BatchExams[0].LengthOfExamInMinutes;
     $scope.questions = $scope.examTemplate.ExamQuestions;
     $scope.answeroptions = "A. This answer B. This answer C. This answer D. This answer";
     $scope.isEditable = false;
     $scope.testStarted = false;
-
+    
     //timer info
     $rootScope.timer = $scope.lengthofexam;
     // function to start the cooking timer, use the timer service
@@ -222,7 +229,7 @@ app.controller('associateInExamCtrl', function ($scope, $rootScope, $timeout, ti
 
 }); //controller
 
-app.controller('collapseCtrl', function ($scope, $location) {
+app.controller('collapseCtrl', function (AuthenticationService,$scope, $location) {
     $scope.isNavCollapsed = true;
     $scope.isCollapsed = false;
     $scope.isCollapsedHorizontal = false;
@@ -235,13 +242,14 @@ app.controller('collapseCtrl', function ($scope, $location) {
             return false;
         }
     }
+   //  AuthenticationService.isSessionTimedOut()
 
 });
 
-app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchInfoService) {
+app.controller('trainerWelcomeCtrl', HomeController, function ($scope, AuthenticationService,getBatchInfoService) {
     var gradebookClicked = false; // variable that determines if Gradebook is clicked 
     var createexamClicked = false; // variable that determines if Create New Exam is clicked 
-
+    AuthenticationService.isSessionTimedOut();
     var successFunction = function (batch) {
         var noa = 0; // noa stands for number of associates in a batch
 
@@ -263,13 +271,14 @@ app.controller('trainerWelcomeCtrl', HomeController, function ($scope, getBatchI
     getBatchInfoService.getBatch(successFunction, errorFunction);
 
     $scope.userType = "Trainer";
+  //   AuthenticationService.isSessionTimedOut()
 
 });
 
-app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings, ExamData, ExamTemplateService) {
+app.controller('associateExamSettingsCtrl', function ($scope, AuthenticationService,storeExamSettings, ExamData, ExamTemplateService) {
     $scope.BatchExams = ExamData.getBatchExamSettings();
     $scope.returnedData = ExamData.getExamTemplateData();
-
+    AuthenticationService.isSessionTimedOut();
 
     $scope.examname = "Test: ";
     $scope.startdate = $scope.BatchExams[0];//$scope.BatchExams[0].StartTime.getDate();//"Monday, April 3, 2017";
@@ -372,14 +381,19 @@ app.controller('associateExamSettingsCtrl', function ($scope, storeExamSettings,
     }
     var assignToBatchSuccess = function (data) {
         $scope.returnedData = data.data;
+        AuthenticationService.isSessionTimedOut()
     }
     var assignToUserSuccess = function (data) {
         $scope.returnedData = data.data;
+        AuthenticationService.isSessionTimedOut()
     }
     var examTemplateSucess = function (data) {
         $scope.returnedData = data;
+        AuthenticationService.isSessionTimedOut()
     }
     var errorFunction = function (err) {
         $scope.returnedData = err;
+        AuthenticationService.isSessionTimedOut()
     };
+       AuthenticationService.isSessionTimedOut()
 });

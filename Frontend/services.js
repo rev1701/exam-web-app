@@ -101,6 +101,11 @@ app.service("ExamData", function () {
     };
 });
 
+
+
+
+
+
 // service for timer
 // features:
 // -- reset timer
@@ -212,17 +217,47 @@ app.service("UserData", function () {
     'use strict';
 
     app.service('AuthenticationService', AuthenticationService);
-
-    AuthenticationService.$inject = ['$http', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, $rootScope, $timeout, UserService) {
+    
+    AuthenticationService.$inject = ['$location','$window','$http', '$rootScope', '$timeout', 'UserService'];
+  //  sessionStorage.setItem('LoginDate', new Date());
+    function AuthenticationService($window,$location, $http, $rootScope, $timeout, UserService) {
         var service = {};
 
         service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
-
+        service.isSessionTimedOut = isSessionTimedOut;  
+        sessionStorage.setItem('LoginDate', Date.now());
+        alert(sessionStorage.getItem('LoginDate'));
         return service;
-
+     function isSessionTimedOut()
+        {
+           // alert(sessionStorage.getItem('LoginDate'));
+            var logintime = sessionStorage.getItem("LoginDate");
+            console.log("logintime is " + logintime);
+            var now = Date.now();
+            console.log("now is " + now);
+            //alert(logintime);
+          //  console.log(logintime.getMinutes());
+            var diff = Math.abs(now - logintime);
+          //  alert("diff");
+            alert("diffs is " + diff);
+            var minutes = Math.floor((diff/1000)/60);
+            alert("minutes are " + minutes);
+         //  alert(diff);
+          
+            if(minutes > 30)
+            {
+              //  alert("true");
+                $window.location.href = "login"; 
+            }
+            else
+            {
+                //alert("false");
+                sessionStorage.setItem('LoginDate', new Date());
+             //   return false;
+            }
+        } 
         function Login(email, password, callback) {
 
             /* Dummy authentication for testing, uses $timeout to simulate api call
@@ -420,17 +455,22 @@ app.service("UserData", function () {
         var service = {};
 
         service.GetAll = GetAll;
+        // service.GetById = GetById;
         service.GetByEmail = GetByEmail;
         service.GetByEmail2 = GetByEmail2;
+        // service.Update = Update;
+        // service.Delete = Delete;
 
         return service;
 
         function GetAll() {
             return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login").then(handleSuccess, handleError('Error getting all users'));
+            // return $http.get('/api/users').then(handleSuccess, handleError('Error getting all users'));
         }
 
         // gets user by email from the Login API
         function GetByEmail(email) {
+            // var domain = $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/login");
             return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/LMS-1701LoginAPI/api/users/getuser?email=" + email).then(handleSuccess, handleError('Error getting user by username'));
         }
 
@@ -438,6 +478,14 @@ app.service("UserData", function () {
         function GetByEmail2(email) {
             return $http.get("http://ec2-54-215-138-178.us-west-1.compute.amazonaws.com/UserBuffetService/api/users/GetUser?email=" + email).then(handleSuccess, handleError('Error creating user'));
         }
+
+        // function Update(user) {
+        //     return $http.put('/api/users/' + user.id, user).then(handleSuccess, handleError('Error updating user'));
+        // }
+
+        // function Delete(id) {
+        //     return $http.delete('/api/users/' + id).then(handleSuccess, handleError('Error deleting user'));
+        // }
 
         // private functions
 
