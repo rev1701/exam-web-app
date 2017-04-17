@@ -239,7 +239,7 @@ app.service("UserData", function () {
             console.log("now is " + now);
             var diff = Math.abs(now - logintime);
             
-            var minutes = Math.floor((diff/1000)/60);
+            var minutes = Math.floor((diff/1000));
             alert(minutes);
             if(minutes > 0)
             {
