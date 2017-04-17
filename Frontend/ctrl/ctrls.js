@@ -43,8 +43,8 @@
     app.controller('associateWelcomeCtrl', HomeController)
 })();
 
-HomeController.$inject = ['UserService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state', 'ExamData', 'ExamTemplateService'];
-function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $location, $state, ExamData, ExamTemplateService) {
+HomeController.$inject = ['UserService','AuthenticationService', 'getBatchInfoService', '$rootScope', '$scope', '$location', '$state', 'ExamData', 'ExamTemplateService'];
+function HomeController( UserService, AuthenticationService, getBatchInfoService, $rootScope, $scope, $location, $state, ExamData, ExamTemplateService) {
     $scope.user;
     $scope.userType;
     $scope.userEmail;
@@ -56,7 +56,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
     $scope.aBatch;
 
     initController();
-
+    AuthenticationService.isSessionTimedOut();
     function initController() {
         loadCurrentUser();
     }
@@ -113,7 +113,7 @@ function HomeController(UserService, getBatchInfoService, $rootScope, $scope, $l
         ExamData.setBatchExamSettings(batch.data[0].ExamSettings);
 
         ExamTemplateService.getExamTemplate(batch.data[0].ExamSettings[0].ExamTemplateID, examTemplateSucess, errorFunction);
-
+        
     }
     var errorFunction = function (err) {
         $scope.batchName = err;

@@ -241,14 +241,18 @@ app.service("UserData", function () {
             
             var minutes = Math.floor((diff/1000)/60);
             alert(minutes);
-            if(minutes > 30)
+            if(minutes > 0)
             {
            
-                $window.location.href = "login"; 
+                //$window.location.href = "login"; 
+                alert("yes");
+                return true;
             }
             else
             {
+                alert("no");
                 sessionStorage.setItem('LoginDate', new Date());
+                return false;
             }  
         } 
         function Login(email, password, callback) {
