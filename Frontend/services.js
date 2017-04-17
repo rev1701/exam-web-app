@@ -217,47 +217,17 @@ app.service("UserData", function () {
     'use strict';
 
     app.service('AuthenticationService', AuthenticationService);
-    
-    AuthenticationService.$inject = ['$location','$window','$http', '$rootScope', '$timeout', 'UserService'];
-  //  sessionStorage.setItem('LoginDate', new Date());
-    function AuthenticationService($window,$location, $http, $rootScope, $timeout, UserService) {
+
+    AuthenticationService.$inject = ['$http', '$rootScope', '$timeout', 'UserService'];
+    function AuthenticationService($http, $rootScope, $timeout, UserService) {
         var service = {};
 
         service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
-        service.isSessionTimedOut = isSessionTimedOut;  
-        sessionStorage.setItem('LoginDate', Date.now());
-        alert(sessionStorage.getItem('LoginDate'));
+
         return service;
-     function isSessionTimedOut()
-        {
-           // alert(sessionStorage.getItem('LoginDate'));
-            var logintime = sessionStorage.getItem("LoginDate");
-            console.log("logintime is " + logintime);
-            var now = Date.now();
-            console.log("now is " + now);
-            //alert(logintime);
-          //  console.log(logintime.getMinutes());
-            var diff = Math.abs(now - logintime);
-          //  alert("diff");
-            alert("diffs is " + diff);
-            var minutes = Math.floor((diff/1000)/60);
-            alert("minutes are " + minutes);
-         //  alert(diff);
-          
-            if(minutes > 30)
-            {
-              //  alert("true");
-                $window.location.href = "login"; 
-            }
-            else
-            {
-                //alert("false");
-                sessionStorage.setItem('LoginDate', new Date());
-             //   return false;
-            }
-        } 
+
         function Login(email, password, callback) {
 
             /* Dummy authentication for testing, uses $timeout to simulate api call
