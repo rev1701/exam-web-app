@@ -217,17 +217,40 @@ app.service("UserData", function () {
     'use strict';
 
     app.service('AuthenticationService', AuthenticationService);
-
-    AuthenticationService.$inject = ['$http', '$rootScope', '$timeout', 'UserService'];
-    function AuthenticationService($http, $rootScope, $timeout, UserService) {
+    
+    AuthenticationService.$inject = ['$location','$window','$http', '$rootScope', '$timeout', 'UserService'];
+  //  sessionStorage.setItem('LoginDate', new Date());
+    function AuthenticationService($window,$location, $http, $rootScope, $timeout, UserService) {
         var service = {};
 
         service.Login = Login;
         service.SetCredentials = SetCredentials;
         service.ClearCredentials = ClearCredentials;
-
+        service.isSessionTimedOut = isSessionTimedOut;  
+        sessionStorage.setItem('LoginDate', Date.now());
+       // alert(sessionStorage.getItem('LoginDate'));
         return service;
-
+        function isSessionTimedOut()
+        {
+            
+            var logintime = sessionStorage.getItem("LoginDate");
+            console.log("logintime is " + logintime);
+            var now = Date.now();
+            console.log("now is " + now);
+            var diff = Math.abs(now - logintime);
+            
+            var minutes = Math.floor((diff/1000)/60);
+            alert(minutes);
+            if(minutes > 30)
+            {
+           
+                $window.location.href = "login"; 
+            }
+            else
+            {
+                sessionStorage.setItem('LoginDate', new Date());
+            }  
+        } 
         function Login(email, password, callback) {
 
             /* Dummy authentication for testing, uses $timeout to simulate api call
